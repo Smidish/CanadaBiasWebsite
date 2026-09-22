@@ -23,6 +23,26 @@ It also opens straight from the filesystem (`open index.html`): everything is cl
 `<script>` tags, so there is no ES-module CORS problem over `file://`. The only network
 request is the Google Fonts stylesheet, which degrades to system serif/sans stacks offline.
 
+## Deploying to GitHub Pages
+
+**The repository root must contain an empty `.nojekyll` file.** It is in this repo — do not
+delete it.
+
+GitHub Pages runs Jekyll over your files by default, and Jekyll silently drops everything
+whose name begins with an underscore. That removes `js/content/_entities.js`, `_data.js` and
+`_manifest.js` from the published site (`_data` is a reserved Jekyll directory name as well),
+so every page still loads and renders its static text while every global those files define
+is missing — no rail, no doors, no figures, no interaction, and no error anyone would notice.
+`.nojekyll` turns Jekyll off and publishes the tree verbatim.
+
+If it ever happens again, the site now says so: a missing module puts a banner at the top of
+the page naming the files and the fix (`assertDeps()` in `js/app.js`). Check the browser
+console too — a 404 on a `js/content/_*.js` file is the signature.
+
+Everything else is already deploy-safe: all links are relative, so the site works from a
+project subpath (`user.github.io/repo/`) as well as from a domain root, and D3 is vendored so
+there is no CDN to block.
+
 ## Pages
 
 | File | What it is |

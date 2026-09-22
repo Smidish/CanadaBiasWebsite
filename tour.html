@@ -78,12 +78,14 @@
 <script src="js/app.js"></script>
 <script src="js/content/tour.js"></script>
 <script>
-SITE.boot({});
-SITE.renderTour(document.getElementById('tour'), SITE.TOUR);
-SITE.buildDoors(document.getElementById('doors'));
-document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
-  return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
-}).join('');
+(function () {
+  if (!SITE.boot({})) return;
+  SITE.renderTour(document.getElementById('tour'), SITE.TOUR);
+  SITE.buildDoors(document.getElementById('doors'));
+  document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
+    return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
+  }).join('');
+}());
 </script>
 </body>
 </html>

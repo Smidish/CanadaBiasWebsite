@@ -268,10 +268,52 @@ window.SITE = window.SITE || {};
     else raf = requestAnimationFrame(frame);
   };
 
+  /* ---- dependency tripwire ---------------------------------------- *
+   * If a content module fails to load, every global it defines is simply
+   * missing and the page dies quietly — static text renders, nothing works.
+   * That is exactly what GitHub Pages does to the underscore-prefixed files
+   * unless a .nojekyll sits at the repo root, so say so out loud instead of
+   * leaving a blank page to interpret.
+   * ------------------------------------------------------------------ */
+  var MODULE_OF = {
+    manifest: 'js/content/_manifest.js',
+    entities: 'js/content/_entities.js',
+    data: 'js/content/_data.js',
+    Charts: 'js/charts.js',
+    Figure: 'js/render.js'
+  };
+
+  function assertDeps() {
+    var need = ['manifest'];
+    // a page that mounts figures needs the chart stack as well
+    if (document.getElementById('path') || document.getElementById('tour')) {
+      need = need.concat(['entities', 'data', 'Charts', 'Figure']);
+    }
+    var missing = need.filter(function (k) { return !SITE[k]; });
+    if (!missing.length) return true;
+
+    var files = missing.map(function (k) { return MODULE_OF[k]; });
+    var bar = document.createElement('div');
+    bar.setAttribute('role', 'alert');
+    bar.style.cssText = 'position:relative;z-index:99;margin:0;padding:1rem 1.2rem;' +
+      'background:#fdf1d4;color:#5c3d00;border-bottom:1px solid #f0d79a;' +
+      'font:14px/1.5 system-ui,sans-serif';
+    bar.innerHTML =
+      '<b>This page could not load part of itself, so nothing on it will work.</b><br>' +
+      'Missing: <code>' + files.join('</code>, <code>') + '</code>. ' +
+      'If this is a GitHub Pages deploy, add an empty <code>.nojekyll</code> file to the ' +
+      'repository root — Jekyll silently drops files whose names begin with an underscore.';
+    document.body.insertBefore(bar, document.body.firstChild);
+    if (window.console) console.error('[site] missing modules:', files.join(', '));
+    return false;
+  }
+
   /* ---- boot ------------------------------------------------------- */
   SITE.boot = function (opts) {
     opts = opts || {};
+    if (!assertDeps()) return false;
     SITE.buildRail(opts.activeN);
     SITE.progressBar();
+    return true;
   };
 }());

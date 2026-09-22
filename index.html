@@ -148,12 +148,14 @@
 <script src="js/content/_manifest.js"></script>
 <script src="js/app.js"></script>
 <script>
-SITE.boot({});
-SITE.buildDoors(document.getElementById('doors'));
-SITE.heroField(document.querySelector('.hero-canvas'));
-document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
-  return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
-}).join('');
+(function () {
+  if (!SITE.boot({})) return;
+  SITE.buildDoors(document.getElementById('doors'));
+  SITE.heroField(document.querySelector('.hero-canvas'));
+  document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
+    return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
+  }).join('');
+}());
 </script>
 </body>
 </html>

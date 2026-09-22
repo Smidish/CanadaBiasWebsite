@@ -64,7 +64,7 @@
   if (!(n >= 1 && n <= 7)) n = 1;
   var path = SITE.CONTENT['rq' + n];
 
-  SITE.boot({ activeN: n });
+  if (!SITE.boot({ activeN: n })) return;
 
   document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
     return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';

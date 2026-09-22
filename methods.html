@@ -176,14 +176,16 @@
 <script src="js/content/_manifest.js"></script>
 <script src="js/app.js"></script>
 <script>
-SITE.boot({});
-document.getElementById('cast').innerHTML = SITE.entities.sources.map(function (s) {
-  return '<div><b><i style="background:var(--series-' + s.slot + ')"></i>' + s.name + '</b>' +
-         '<span>' + s.kind + ' · ' + s.lang + ' · fictional placeholder</span></div>';
-}).join('');
-document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
-  return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
-}).join('');
+(function () {
+  if (!SITE.boot({})) return;
+  document.getElementById('cast').innerHTML = SITE.entities.sources.map(function (s) {
+    return '<div><b><i style="background:var(--series-' + s.slot + ')"></i>' + s.name + '</b>' +
+           '<span>' + s.kind + ' · ' + s.lang + ' · fictional placeholder</span></div>';
+  }).join('');
+  document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
+    return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
+  }).join('');
+}());
 </script>
 </body>
 </html>
