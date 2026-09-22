@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Methods &amp; limits · Same Campaign, Different Story</title>
+<meta name="description" content="How every measure on this site is defined, how uncertain it is, and what it cannot tell you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/viz.css">
+<style>
+  .prose h2 { padding-top: 1.4rem; border-top: 1px solid var(--rule); }
+  .warn { border: 1px solid var(--rule); border-left: 3px solid #eda100; border-radius: 0 14px 14px 0;
+          background: var(--surface); padding: 1.3rem 1.4rem; margin: 2rem 0; }
+  .warn h3 { margin-top: 0; font-size: 1.25rem; }
+  .cast { display: grid; gap: 1rem; margin: 1.5rem 0; }
+  @media (min-width: 700px) { .cast { grid-template-columns: repeat(2, 1fr); } }
+  .cast div { border: 1px solid var(--rule); border-radius: 12px; padding: .9rem 1rem; background: var(--surface); }
+  .cast b { display: flex; align-items: center; gap: .5rem; font-weight: 640; }
+  .cast i { width: 10px; height: 10px; border-radius: 3px; display: block; flex: none; }
+  .cast span { display: block; font-size: .82rem; color: var(--muted); margin-top: .2rem; }
+</style>
+</head>
+<body>
+
+<header class="rail"></header>
+
+<main>
+  <header class="path-head wrap">
+    <div class="col-wide">
+      <p class="kicker"><span class="dot"></span>Methods</p>
+      <h1>How this was measured.</h1>
+      <p class="dek" style="margin-top:1.4rem">Every figure on this site rests on a definition, a coding decision
+        and an error bar. This page is all three, written out, including the parts that are inconvenient.</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+  <article class="prose">
+
+    <div class="warn">
+      <h3>First, the thing that matters most</h3>
+      <p><b>This site is a prototype and every number on it is simulated.</b> The figures are populated by a seeded
+        random generator so that the interface could be designed, built and tested before the analysis was finished.
+        The outlet names, party names, leader names, account handles, headlines and AI answers are all invented.</p>
+      <p style="margin-top:.7rem">They are invented deliberately rather than borrowed from real organisations: a
+        prototype that attached fabricated bias scores to real newsrooms would be misleading the moment a screenshot
+        left this page. What <i>is</i> real is everything below — the measures, the coding schemes, the uncertainty
+        treatment and the limits. When the analysis lands, the data is swapped in and the pages stay as they are.</p>
+    </div>
+
+    <h2>The two campaigns</h2>
+    <p>The study covers two simultaneous campaigns: a provincial general election in Quebec and a referendum in
+      Alberta, each over a 41-day campaign period. Eight news sources are sampled across both, chosen to span
+      outlet type rather than to be representative of any market: a public broadcaster, two legacy broadsheets,
+      two tabloids, a digital-native outlet, a wire service and a partisan digital outlet.</p>
+
+    <h3>The placeholder cast</h3>
+    <div class="cast" id="cast"></div>
+
+    <h2>What each measure means</h2>
+    <dl>
+      <dt>Visibility</dt>
+      <dd>Mentions of an actor per 1,000 articles, and that actor’s share of all actor mentions on a given day.
+        A mention is a named reference resolved to a canonical entity. It counts presence, never approval.</dd>
+
+      <dt>Polarisation / dispersion</dt>
+      <dd>The standard deviation, across the eight sources, of source-level mean stance toward an actor, issue or
+        position. Stance runs −1 to +1 and is coded per article by a classifier validated against a hand-coded
+        sample. High dispersion means the sources differed from each other — not that any of them was wrong.</dd>
+
+      <dt>Linguistic bias</dt>
+      <dd>Six dimensions, scored per article and standardised so that 0 is the corpus mean and units are standard
+        deviations: epistemological framing, intensifiers, attribution gap, agency deletion, distancing, and
+        conflict metaphor. Because scores are relative to this corpus, a source at 0 is average — not neutral.</dd>
+
+      <dt>Visual framing</dt>
+      <dd>Five codes applied to published photographs: camera angle, shot size, expression, setting and gaze, plus
+        an image–caption congruence score. Coded by two independent coders on a sample; disagreements adjudicated.
+        This is the least reliable measurement in the study.</dd>
+
+      <dt>Message uptake</dt>
+      <dd>The share of a campaign message’s appearances in the actor’s own channels that are echoed in news
+        coverage within 72 hours. Near-identical phrasings are de-duplicated, so a repeated line counts once.</dd>
+
+      <dt>Framing shift</dt>
+      <dd>The difference between a claim’s framing valence in the actor’s own documents and its mean framing
+        valence in news coverage. +1 is entirely the claimant’s frame, −1 entirely the counter-frame.</dd>
+
+      <dt>Engagement</dt>
+      <dd>Reshares per 1,000 followers, analysed on a log scale. An outcome of platform ranking as much as of
+        content; never interpretable as an effect of the text alone.</dd>
+
+      <dt>Lagged association</dt>
+      <dd>The correlation between coverage tone on day <i>t</i> and the change in polling estimate on day
+        <i>t + k</i>, computed for every <i>k</i> from −14 to +14. Reported as the whole curve, never as a single
+        selected lag.</dd>
+
+      <dt>AI assistant stance and hedging</dt>
+      <dd>Each of five assistants is prompted 40 times per question per language on a fixed date. Stance and
+        hedging are coded on the returned text with the same schemes used for news. Results are distributions at
+        a moment, not properties of a model.</dd>
+    </dl>
+
+    <h2>Uncertainty</h2>
+    <p>Uncertainty is drawn wherever it exists and can be drawn: 95% intervals on polling series, confidence
+      intervals on every lag correlation, and article counts behind every heatmap cell and scatter point so you can
+      see how thin a measurement is before you lean on it.</p>
+    <p>Where it cannot be drawn honestly — inter-coder disagreement on visual codes, for instance, or the
+      non-determinism of an AI assistant — it is stated in words in the takeaway box at the end of that route.
+      Those boxes are part of the finding, not a legal notice appended to it.</p>
+
+    <h2>What this study cannot tell you</h2>
+    <ul>
+      <li><b>Whether any newsroom is biased.</b> We measure differences between sources on defined dimensions.
+        Differences have many causes — style guides, section conventions, beat structure, deadline pressure,
+        who happened to be free that afternoon — and this design cannot separate them from editorial intent.</li>
+      <li><b>Whether coverage changed anyone’s vote.</b> Nothing here is an experiment. The strongest claim any
+        figure on this site supports is temporal precedence, and only for one pair of series.</li>
+      <li><b>Whether any claim discussed is true.</b> We code how claims were framed and how far they travelled.
+        Fact-checking them is a different study.</li>
+      <li><b>What readers took away.</b> We measure what was published and what was shared. Reception is not
+        observed at all.</li>
+      <li><b>Whether the patterns generalise.</b> Two simultaneous campaigns in one country is the easiest possible
+        comparison. Treat the transferability results in Path 7 as an upper bound.</li>
+    </ul>
+
+    <h2>Accessibility and how to read the figures</h2>
+    <ul>
+      <li>Every figure has a <b>Table</b> button that shows the same numbers as text, so no value is reachable only
+        by hovering or only by colour.</li>
+      <li>Series are identified by a legend and, where there are few enough of them, labelled directly on the
+        chart — colour never carries identity on its own.</li>
+      <li>Two measures are never plotted on two y-axes. Where the site needs to show coverage volume against
+        polling, they sit in two stacked panels sharing one time axis.</li>
+      <li>The palette is a validated colourblind-safe categorical set; the light and dark versions are separately
+        chosen rather than inverted. The theme follows your system setting and can be switched in the top bar.</li>
+      <li>Scroll-driven animation respects <code>prefers-reduced-motion</code>; with it on, every figure appears in
+        its final state and the step boxes stay fully legible.</li>
+    </ul>
+
+    <h2>Reproducibility</h2>
+    <p>The placeholder data is generated deterministically from fixed seeds in
+      <code>js/content/_data.js</code>, so the site renders identically on every load. Each generator carries a
+      comment describing the shape it returns; replacing a generator with real results requires no change to the
+      figure code, the narrative or the layout.</p>
+
+  </article>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <h5>About this site</h5>
+      <p class="small">A prototype presentation of a media-bias study of the Quebec general election and the
+        Alberta referendum. <b>All data shown is simulated placeholder data.</b></p>
+    </div>
+    <div>
+      <h5>The seven paths</h5>
+      <ul id="footPaths"></ul>
+    </div>
+    <div>
+      <h5>Elsewhere</h5>
+      <ul>
+        <li><a href="index.html">Start again</a></li>
+        <li><a href="tour.html">The guided tour</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="js/content/_entities.js"></script>
+<script src="js/content/_manifest.js"></script>
+<script src="js/app.js"></script>
+<script>
+SITE.boot({});
+document.getElementById('cast').innerHTML = SITE.entities.sources.map(function (s) {
+  return '<div><b><i style="background:var(--series-' + s.slot + ')"></i>' + s.name + '</b>' +
+         '<span>' + s.kind + ' · ' + s.lang + ' · fictional placeholder</span></div>';
+}).join('');
+document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
+  return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
+}).join('');
+</script>
+</body>
+</html>

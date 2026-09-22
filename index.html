@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Same Campaign, Different Story</title>
+<meta name="description" content="An interactive tour of how Quebec's election and Alberta's referendum were covered — across newsrooms, feeds, advertising and AI assistants. Prototype running on simulated placeholder data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/viz.css">
+<style>
+  .hero-wrap { position: relative; min-height: min(86vh, 760px); display: flex; align-items: center; }
+  .hero-inner { position: relative; z-index: 1; width: 100%; }
+  .hero-note { display: flex; align-items: center; gap: .6rem; margin-top: 1.4rem; }
+  .intro { padding-block: clamp(2rem, 6vh, 4rem); }
+  .intro-grid { display: grid; gap: 1.6rem; margin-top: 2rem; }
+  @media (min-width: 820px) { .intro-grid { grid-template-columns: repeat(3, 1fr); gap: 2.4rem; } }
+  .intro-grid h4 { font-family: var(--sans); font-size: .76rem; font-weight: 700; letter-spacing: .12em;
+                   text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
+  .intro-grid p { font-size: .94rem; color: var(--ink-2); }
+  .doors-wrap { padding-block: clamp(2rem, 6vh, 3.5rem); }
+  .doors-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+  .tour-cta { margin-top: clamp(2.5rem, 7vh, 4.5rem); }
+  .tour-cta .btn-row { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 1.6rem; }
+  .disclosure { padding-block: clamp(2.5rem, 7vh, 4rem); }
+  .disclosure-box { border: 1px solid var(--rule); border-left: 3px solid #eda100; border-radius: 0 14px 14px 0;
+                    background: var(--surface); padding: 1.3rem 1.4rem; }
+  .disclosure-box h3 { font-size: 1.25rem; margin-bottom: .6rem; }
+  .disclosure-box p { font-size: .92rem; color: var(--ink-2); }
+</style>
+</head>
+<body>
+
+<header class="rail"></header>
+
+<main>
+
+<section class="hero hero-wrap wrap">
+  <canvas class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <p class="kicker"><span class="dot"></span>Media bias research · Quebec &amp; Alberta, 2026</p>
+    <h1 class="hero-title">Same campaign,<br><em>different story</em>.</h1>
+    <p class="dek">Two provinces voted in the same five weeks. One chose a government, the other answered a question.
+      We measured how the coverage was built — who appeared, in whose words, which messages travelled, and what
+      five AI assistants told anyone who asked.</p>
+    <div class="hero-cta">
+      <a class="btn" href="tour.html">Take the guided tour
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="btn btn-ghost" href="#paths">Or choose your own path</a>
+    </div>
+    <div class="hero-note">
+      <span class="sim-badge">Simulated<span class="long"> data</span></span>
+      <span class="tiny">Prototype. Every figure runs on placeholder data — <a href="methods.html">what that means</a>.</span>
+    </div>
+  </div>
+</section>
+
+<section class="intro wrap">
+  <div class="col-wide">
+    <h2>You are the analyst here.</h2>
+    <p class="lede" style="margin-top:1.2rem;color:var(--ink-2)">This site does not tell you which newsroom to trust.
+      It shows you what was measured, lets you move the controls yourself, and says plainly where each measurement
+      stops being reliable. The conclusions are the part we are leaving to you.</p>
+  </div>
+  <div class="intro-grid col-wide">
+    <div>
+      <h4>Scroll to be shown</h4>
+      <p>Every path is a guided walk: the figure moves as you scroll, one idea per step. Nothing is hidden behind
+        a click.</p>
+    </div>
+    <div>
+      <h4>Stop to dig</h4>
+      <p>After each walk the same figure is handed over with its controls unlocked — switch newsrooms, switch
+        campaigns, hover anything, or open the table view for the raw numbers.</p>
+    </div>
+    <div>
+      <h4>Argue with it</h4>
+      <p>Every route ends with what the measurement cannot show. Those boxes are not disclaimers; they are the
+        most important part of the page.</p>
+    </div>
+  </div>
+</section>
+
+<section class="doors-wrap wrap" id="paths">
+  <div class="doors-head">
+    <div class="col-wide">
+      <p class="kicker"><span class="dot"></span>Seven ways in</p>
+      <h2>Pick a question.</h2>
+      <p class="small" style="margin-top:.8rem;max-width:44rem">Each door is one research question, rewritten as
+        something a person would actually ask. Take them in any order — the site remembers where you have been.</p>
+    </div>
+  </div>
+  <div class="doors" id="doors"></div>
+</section>
+
+<section class="wrap tour-cta">
+  <div class="handoff">
+    <p class="kicker" style="color:rgba(255,255,255,.55)"><span class="dot" style="background:currentColor"></span>Short on time</p>
+    <h3>The guided tour is the whole study in seven scrolls.</h3>
+    <p>One headline result per research question, in the order that makes the best argument, with a door into the
+      full path at every stop. About eight minutes.</p>
+    <div class="btn-row">
+      <a class="btn" href="tour.html">Start the tour
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <a class="btn btn-ghost" href="methods.html">Read the methods first</a>
+    </div>
+  </div>
+</section>
+
+<section class="disclosure wrap">
+  <div class="disclosure-box col-wide">
+    <h3>About the numbers on this site</h3>
+    <p>This is a working prototype of the presentation, not a publication of results. <b>Every figure, quotation,
+      outlet name, party name and account handle here is a placeholder</b>, generated by a seeded random process so
+      the interface can be built and tested. Nothing on this site describes any real news organisation, political
+      party, candidate or person, and no number here should be cited.</p>
+    <p style="margin-top:.7rem">The measurement definitions, the coding schemes and the stated limits <i>are</i> the
+      real ones. When the analysis is complete, the data behind each figure is swapped in and the pages stay as
+      they are.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <h5>About this site</h5>
+      <p class="small">A prototype presentation of a media-bias study of the Quebec general election and the
+        Alberta referendum, covering news text, images, political advertising, social media and AI assistants.</p>
+    </div>
+    <div>
+      <h5>The seven paths</h5>
+      <ul id="footPaths"></ul>
+    </div>
+    <div>
+      <h5>Elsewhere</h5>
+      <ul>
+        <li><a href="tour.html">The guided tour</a></li>
+        <li><a href="methods.html">Methods &amp; limits</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="js/content/_manifest.js"></script>
+<script src="js/app.js"></script>
+<script>
+SITE.boot({});
+SITE.buildDoors(document.getElementById('doors'));
+SITE.heroField(document.querySelector('.hero-canvas'));
+document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
+  return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
+}).join('');
+</script>
+</body>
+</html>

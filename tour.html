@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The guided tour · Same Campaign, Different Story</title>
+<meta name="description" content="Seven headline results from a media-bias study of the Quebec election and the Alberta referendum, in about eight minutes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/viz.css">
+</head>
+<body>
+
+<header class="rail"></header>
+
+<nav class="toc" aria-label="Contents of this page"></nav>
+
+<main>
+  <header class="path-head wrap" id="tour-top">
+    <div class="col-wide">
+      <p class="kicker"><span class="dot"></span>The default path · about 8 minutes</p>
+      <h1>The guided tour</h1>
+      <p class="dek" style="margin-top:1.4rem">Seven beats, one headline result from each research question, in the
+        order that makes the clearest argument. Scroll and it runs itself. At the end of each beat there is a door
+        into the full path, if that one is the one you came for.</p>
+      <div class="rq-box">
+        <p class="tiny">Before you start</p>
+        <p>Every number in this tour is placeholder data generated for the prototype. The measurement definitions
+          and the stated limits are real. <a href="methods.html">How this was measured →</a></p>
+      </div>
+    </div>
+  </header>
+
+  <div id="tour"></div>
+
+  <section class="nextup wrap" id="tour-end">
+    <div class="col-wide">
+      <p class="kicker"><span class="dot"></span>That’s the tour</p>
+      <h2>Now the arguing is yours.</h2>
+      <p class="dek" style="margin-top:1rem">You have seen one result from each question. Each of them has two more
+        behind it, with the controls unlocked and the limits spelled out. Start wherever you disagreed most.</p>
+    </div>
+    <div class="doors" id="doors" data-tour-door="off" style="margin-top:2rem"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <h5>About this site</h5>
+      <p class="small">A prototype presentation of a media-bias study of the Quebec general election and the
+        Alberta referendum. <b>All data shown is simulated placeholder data.</b></p>
+    </div>
+    <div>
+      <h5>The seven paths</h5>
+      <ul id="footPaths"></ul>
+    </div>
+    <div>
+      <h5>Elsewhere</h5>
+      <ul>
+        <li><a href="index.html">Start again</a></li>
+        <li><a href="methods.html">Methods &amp; limits</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="js/lib/d3.v7.min.js"></script>
+<script src="js/content/_entities.js"></script>
+<script src="js/content/_data.js"></script>
+<script src="js/content/_manifest.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/scrolly.js"></script>
+<script src="js/stage.js"></script>
+<script src="js/render.js"></script>
+<script src="js/app.js"></script>
+<script src="js/content/tour.js"></script>
+<script>
+SITE.boot({});
+SITE.renderTour(document.getElementById('tour'), SITE.TOUR);
+SITE.buildDoors(document.getElementById('doors'));
+document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
+  return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
+}).join('');
+</script>
+</body>
+</html>

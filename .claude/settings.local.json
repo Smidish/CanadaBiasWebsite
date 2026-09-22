@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 scripts/validate_palette.py \"#3987e5,#d95926,#199e70,#c98500,#d55181,#008300,#9085e9,#e66767\" --mode dark --surface \"#191917\")",
+      "Bash(curl -sS -m 30 -o js/lib/d3.v7.min.js https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js)",
+      "Bash(python3 -)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/ffprofile --window-size=1200 --screenshot /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/full2.png http://localhost:8777/path.html?rq=1)",
+      "Bash(osascript -l JavaScript -e 'var s=$.NSString.stringWithContentsOfFileEncodingError\\('\\\\''__TRACKED_VAR__/js/render.js'\\\\'',4,$\\(\\)\\).js; try{ new Function\\(s\\); '\\\\''OK'\\\\'' }catch\\(e\\){ '\\\\''SYNTAX: '\\\\''+e.message }')",
+      "Bash(osascript -l JavaScript -e 'var s=$.NSString.stringWithContentsOfFileEncodingError\\('\\\\''__TRACKED_VAR__/js/charts.js'\\\\'',4,$\\(\\)\\).js; try{ new Function\\(s\\); '\\\\''OK'\\\\'' }catch\\(e\\){ '\\\\''SYNTAX: '\\\\''+e.message }')",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/fflight --window-size=1400 --screenshot /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/idx_light.png http://localhost:8777/index.html)",
+      "Bash(sed -i '' 's|<div class=\"doors\" id=\"doors\"></div>|<div class=\"doors\" id=\"doors\"></div>|' index.html)",
+      "Bash(sed -i '' 's|<div class=\"doors\" id=\"doors\" style=\"margin-top:2rem\"></div>|<div class=\"doors\" id=\"doors\" data-tour-door=\"off\" style=\"margin-top:2rem\"></div>|' tour.html)",
+      "Bash(osascript -l JavaScript -e 'var s=$.NSString.stringWithContentsOfFileEncodingError\\('\\\\''__TRACKED_VAR__/js/app.js'\\\\'',4,$\\(\\)\\).js; try{ new Function\\(s\\); '\\\\''OK'\\\\'' }catch\\(e\\){ '\\\\''SYNTAX: '\\\\''+e.message }')",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/fflight --window-size=1400,1000 --screenshot /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/hero.png http://localhost:8777/index.html)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/fflight --window-size=400,1600 --screenshot /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/mob.png http://localhost:8777/path.html?rq=5)",
+      "Bash(sips -c 1400 400 --cropOffset 1500 0 /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/mob1.png)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile __TRACKED_VAR__/fflight --window-size=400,1400 --screenshot __TRACKED_VAR__/mob2.png 'http://localhost:8777/path.html?rq=5#r5a')",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/fflight --window-size=400 --screenshot /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/mobfull2.png http://localhost:8777/path.html?rq=5)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/ffprofile --window-size=1200,900 --screenshot /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/all2.png http://localhost:8777/_debug.html)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/fflight --window-size=1440,900 --screenshot /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/s1.png http://localhost:8777/path.html?rq=1)",
+      "Bash(osascript -l JavaScript -e 'var s=$.NSString.stringWithContentsOfFileEncodingError\\('\\\\''__TRACKED_VAR__/js/stage.js'\\\\'',4,$\\(\\)\\).js; try{ new Function\\(s\\); '\\\\''OK'\\\\'' }catch\\(e\\){ '\\\\''SYNTAX: '\\\\''+e.message }')",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile __TRACKED_VAR__/fflight --window-size=1440 --screenshot __TRACKED_VAR__/m6.png 'http://localhost:8777/_t.html?rq=6&p=0.6')",
+      "Bash(cp __TRACKED_VAR__/m6.png __TRACKED_VAR__/m6c.png)",
+      "Bash(sips -c 900 1440 --cropOffset 1150 0 __TRACKED_VAR__/m6c.png)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile __TRACKED_VAR__/fflight --window-size=1440 --screenshot __TRACKED_VAR__/cf.png 'http://localhost:8777/_t.html?rq=1&p=0.33')",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile __TRACKED_VAR__/fflight --window-size=420 --screenshot __TRACKED_VAR__/mb.png 'http://localhost:8777/_t.html?rq=1&p=0.6')",
+      "Bash(cp __TRACKED_VAR__/cf.png __TRACKED_VAR__/cf_c.png)",
+      "Bash(sips -c 880 1440 --cropOffset 1180 0 __TRACKED_VAR__/cf_c.png)",
+      "Bash(cp __TRACKED_VAR__/mb.png __TRACKED_VAR__/mb_c.png)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/fflight --window-size=1440 --screenshot /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/x9.png 'http://localhost:8777/_t.html?rq=1&p=0.085')",
+      "Bash(sips -c 880 1440 --cropOffset 1180 0 /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/x9c.png)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/fflight --window-size=1440,900 --screenshot /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/tourtop.png http://localhost:8777/tour.html)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile __TRACKED_VAR__/fflight --window-size=1440,900 --screenshot __TRACKED_VAR__/tourtop2.png http://localhost:8777/tour.html)",
+      "Bash(grep -n 'data-side\\\\|stage-figure\\\\|\\\\.step {\\\\|\\\\.step-box {\\\\|step-box$' css/base.css)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile __TRACKED_VAR__/fflight --window-size=1440 --screenshot __TRACKED_VAR__/left.png 'http://localhost:8777/_t.html?rq=1&p=0.5')",
+      "Bash(sips -g pixelHeight __TRACKED_VAR__/left.png)",
+      "Bash(sips -c 900 1440 --cropOffset 6600 0 /private/tmp/claude-501/-Users-shi-Desktop-CanadaBiasWebsite/45d6b024-d8f2-41f5-bff4-f58cc5f73cb4/scratchpad/left_c.png)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile __TRACKED_VAR__/fflight --window-size=1440,900 --screenshot __TRACKED_VAR__/toc1.png http://localhost:8777/path.html?rq=3)",
+      "Bash(/Applications/Firefox.app/Contents/MacOS/firefox --headless --profile __TRACKED_VAR__/fflight --window-size=1440,900 --screenshot __TRACKED_VAR__/toc2.png http://localhost:8777/tour.html)",
+      "Bash(pkill -f \"http.server 8777\")"
+    ]
+  }
+}

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A path · Same Campaign, Different Story</title>
+<meta name="description" content="Interactive research on media coverage of the Quebec general election and the Alberta referendum. Prototype running on simulated placeholder data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/viz.css">
+</head>
+<body>
+
+<header class="rail"></header>
+
+<nav class="toc" aria-label="Contents of this page"></nav>
+
+<main id="path"></main>
+
+<footer class="foot">
+  <div class="wrap foot-grid">
+    <div>
+      <h5>About this site</h5>
+      <p class="small">A prototype presentation of a media-bias study of the Quebec general election and the
+        Alberta referendum. <b>Every number, name and quotation on this site is simulated placeholder data</b>
+        generated to build and test the interface.</p>
+    </div>
+    <div>
+      <h5>The seven paths</h5>
+      <ul id="footPaths"></ul>
+    </div>
+    <div>
+      <h5>Elsewhere</h5>
+      <ul>
+        <li><a href="index.html">Start again</a></li>
+        <li><a href="tour.html">The guided tour</a></li>
+        <li><a href="methods.html">Methods &amp; limits</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script src="js/lib/d3.v7.min.js"></script>
+<script src="js/content/_entities.js"></script>
+<script src="js/content/_data.js"></script>
+<script src="js/content/_manifest.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/scrolly.js"></script>
+<script src="js/stage.js"></script>
+<script src="js/render.js"></script>
+<script src="js/app.js"></script>
+<script src="js/content/rq1.js"></script>
+<script src="js/content/rq2.js"></script>
+<script src="js/content/rq3.js"></script>
+<script src="js/content/rq4.js"></script>
+<script src="js/content/rq5.js"></script>
+<script src="js/content/rq6.js"></script>
+<script src="js/content/rq7.js"></script>
+<script>
+(function () {
+  var n = parseInt(new URLSearchParams(location.search).get('rq'), 10);
+  if (!(n >= 1 && n <= 7)) n = 1;
+  var path = SITE.CONTENT['rq' + n];
+
+  SITE.boot({ activeN: n });
+
+  document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
+    return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
+  }).join('');
+
+  if (!path) {
+    document.getElementById('path').innerHTML =
+      '<div class="wrap" style="padding:4rem 0"><h1>That path isn’t here.</h1>' +
+      '<p class="dek" style="margin-top:1rem">Try <a href="index.html">the seven doors</a> instead.</p></div>';
+    return;
+  }
+  SITE.renderPath(document.getElementById('path'), path);
+
+  // Deep links (path.html?rq=2#r2b) need a nudge once the page is built, and
+  // they should land instantly rather than smooth-scrolling the whole page.
+  if (location.hash) {
+    var t = document.querySelector(location.hash);
+    if (t) {
+      var prev = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, t.getBoundingClientRect().top + window.scrollY);
+      document.documentElement.style.scrollBehavior = prev;
+    }
+  }
+}());
+</script>
+</body>
+</html>

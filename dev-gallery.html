@@ -1,0 +1,34 @@
+<!doctype html>
+<!-- Development QA page: renders one instance of every figure type on a
+     single screen, so a change to charts.js can be eyeballed in one pass.
+     Not linked from the site. -->
+<html lang="en"><head><meta charset="utf-8"><title>Figure gallery (dev)</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/viz.css"></head>
+<body><div class="wrap" style="padding:20px 0">
+<div id="g" style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px"></div></div>
+<script src="js/lib/d3.v7.min.js"></script>
+<script src="js/content/_entities.js"></script><script src="js/content/_data.js"></script>
+<script src="js/content/_manifest.js"></script><script src="js/charts.js"></script>
+<script src="js/scrolly.js"></script><script src="js/render.js"></script><script src="js/app.js"></script>
+<script src="js/content/rq1.js"></script><script src="js/content/rq2.js"></script>
+<script src="js/content/rq3.js"></script><script src="js/content/rq4.js"></script>
+<script src="js/content/rq5.js"></script><script src="js/content/rq6.js"></script>
+<script src="js/content/rq7.js"></script>
+<script>
+var g=document.getElementById('g'), seen={}, figs=[];
+for(var n=1;n<=7;n++){
+  SITE.CONTENT['rq'+n].routes.forEach(function(r){
+    [r.scrolly.figure, r.explorer&&r.explorer.figure].forEach(function(f){
+      if(!f||seen[f.type])return; seen[f.type]=1;
+      var box=document.createElement('div'); g.appendChild(box);
+      var fig=SITE.Figure(f); box.appendChild(fig.el);
+      var st=r.scrolly.steps[Math.min(2,r.scrolly.steps.length-1)];
+      figs.push([fig, f===r.scrolly.figure&&st?st.state:null]);
+    });
+  });
+}
+SITE.flushFigures();
+figs.forEach(function(p){ if(p[1]) p[0].update(p[1]); });
+</script></body></html>
