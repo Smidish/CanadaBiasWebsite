@@ -1,0 +1,11 @@
+# build output — regenerate with python3 scripts/build.py
+dist/
+
+# FTP credentials for scripts/deploy.py — never commit
+.deploy.env
+
+# personal Claude Code settings (local paths, permissions)
+.claude/settings.local.json
+
+.DS_Store
+__pycache__/

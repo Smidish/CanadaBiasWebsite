@@ -80,6 +80,10 @@ window.SITE = window.SITE || {};
       plot.innerHTML = '';
       inst = SITE.Charts.create(fig.type, { plot: plot, legend: legend, spec: spec });
       inst.update(lastState);
+      // an SVG with role="img" needs a name; the numbers are in the table view
+      var svg = plot.querySelector('svg');
+      if (svg) svg.setAttribute('aria-label', (fig.title || 'Figure') + (fig.subtitle ? ' — ' + fig.subtitle : '') +
+                                '. Use the Table button for the values.');
       table.dataset.built = '';
     }
 
@@ -241,6 +245,7 @@ window.SITE = window.SITE || {};
      pages and the guided tour. */
   function buildScene(cfg) {
     var scene = el('div', 'route-scene');
+    var slot = cfg.slot || '';
 
     var stage = el('div', 'route-stage');
     var fx = document.createElement('canvas');
@@ -250,17 +255,21 @@ window.SITE = window.SITE || {};
 
     var title = el('div', 'stage-title');
     var inner = el('div', 'stage-title-inner');
+    inner.dataset.slot = slot + ' › ' + cfg.titleFields;
     inner.innerHTML =
       '<span class="tag">' + esc(cfg.tag) + '</span>' +
       '<h2>' + esc(cfg.name) + '</h2>' +
       '<div class="route-opening">' + cfg.opening + '</div>' +
       (cfg.stat ? '<div class="statline"><span class="val num">' + esc(cfg.stat.value) +
                   '</span><span class="cap">' + cfg.stat.caption + '</span></div>' : '') +
-      '<span class="stage-hint">Keep scrolling<i></i></span>';
+      '<button type="button" class="stage-hint" aria-label="Show the figure and the first step">' +
+        '<span class="stage-hint-arrow"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v9.5M3.8 8.3 8 12.5l4.2-4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        '<span>Keep scrolling</span></button>';
     title.appendChild(inner);
     stage.appendChild(title);
 
     var figWrap = el('div', 'stage-figure');
+    figWrap.dataset.slot = slot + ' › ' + cfg.figureField;
     var figure = SITE.Figure(cfg.figure);
     figWrap.appendChild(figure.el);
     stage.appendChild(figWrap);
@@ -269,11 +278,23 @@ window.SITE = window.SITE || {};
 
     var flow = el('div', 'route-flow');
     flow.appendChild(el('div', 'phase phase-intro'));
+    var counted = cfg.steps.filter(function (s) { return !s.deeper; }).length;
     cfg.steps.forEach(function (s, i) {
       var step = el('div', 'step');
       var box = el('div', 'step-box');
-      box.innerHTML = '<span class="step-n">Step ' + (i + 1) + ' / ' + cfg.steps.length + '</span>' +
-        (s.title ? '<h4>' + esc(s.title) + '</h4>' : '') + s.html;
+      box.dataset.slot = slot + ' › ' + cfg.stepsField + '[' + i + ']';
+      if (s.deeper) {
+        // the tour's "go deeper" door, as the last card of the walk
+        box.className += ' step-box--deeper';
+        box.dataset.slot = s.slot;
+        box.innerHTML = '<span class="step-n">' + esc(s.tag) + '</span><h3>' + esc(s.title) + '</h3>' + s.html +
+          '<a class="btn step-cta" href="' + s.href + '">' + esc(s.cta) + ARROW + '</a>';
+        step.appendChild(box);
+        flow.appendChild(step);
+        return;
+      }
+      box.innerHTML = '<span class="step-n">Step ' + (i + 1) + ' / ' + counted + '</span>' +
+        (s.title ? '<h3>' + esc(s.title) + '</h3>' : '') + s.html;
       step.appendChild(box);
       flow.appendChild(step);
     });
@@ -289,6 +310,7 @@ window.SITE = window.SITE || {};
       SITE.Scrolly(scene.flow, function (i) {
         var s = cfg.steps[i];
         if (!s) return;
+        SITE.Stage.step(sec, i);
         // a step may swap the data behind the figure as well as its state
         if (s.spec) {
           scene.figure.setSpec(typeof s.spec === 'function' ? s.spec() : s.spec, true);
@@ -299,14 +321,16 @@ window.SITE = window.SITE || {};
     });
   }
 
-  function renderRoute(route, pathId) {
+  function renderRoute(route, pathId, ri) {
     var sec = el('section', 'route');
     sec.id = route.id;
     sec.dataset.side = route.scrolly.side || 'right';
 
     var cfg = {
       tag: route.tag, name: route.name, opening: route.opening, stat: route.stat,
-      figure: route.scrolly.figure, steps: route.scrolly.steps
+      figure: route.scrolly.figure, steps: route.scrolly.steps,
+      slot: pathId + '.js › routes[' + ri + '] (' + route.tag + ')',
+      titleFields: 'name · opening · stat', figureField: 'scrolly.figure', stepsField: 'scrolly.steps'
     };
     var scene = buildScene(cfg);
     sec.appendChild(scene.el);
@@ -316,8 +340,9 @@ window.SITE = window.SITE || {};
 
     if (route.explorer) {
       var ex = el('div', 'explorer');
+      ex.dataset.slot = cfg.slot + ' › explorer';
       var exHead = el('div', 'explorer-head');
-      exHead.innerHTML = '<span class="tag">Your turn</span><h4>' + esc(route.explorer.title) + '</h4><p>' + route.explorer.text + '</p>';
+      exHead.innerHTML = '<span class="tag">Your turn</span><h3>' + esc(route.explorer.title) + '</h3><p>' + route.explorer.text + '</p>';
       ex.appendChild(exHead);
 
       var exFigure = SITE.Figure(route.explorer.figure);
@@ -342,6 +367,7 @@ window.SITE = window.SITE || {};
     }
 
     var tk = el('div', 'takeaway col-wide');
+    tk.dataset.slot = cfg.slot + ' › takeaway';
     tk.innerHTML = '<span class="tag">' + CAUTION + 'What this shows — and what it does not</span>' + route.takeaway;
     var tkWrap = wrapped(tk);
     reveal(tkWrap);
@@ -363,7 +389,7 @@ window.SITE = window.SITE || {};
     var head = el('header', 'path-head wrap');
     head.id = 'overview';
     head.innerHTML =
-      '<div class="col-wide">' +
+      '<div class="col-wide" data-slot="' + path.id + '.js › name · standfirst · rqText">' +
       '<p class="kicker"><span class="dot"></span>Path ' + path.n + ' of 7 · ' + esc(path.rqId) + '</p>' +
       '<div class="path-n num">' + path.n + '</div>' +
       '<h1>' + esc(path.name) + '</h1>' +
@@ -374,20 +400,21 @@ window.SITE = window.SITE || {};
 
     var cross = el('section', 'crossroads wrap');
     cross.id = 'routes';
-    cross.innerHTML = '<div class="col-wide"><h3>Choose where to start.</h3>' +
+    cross.innerHTML = '<div class="col-wide"><h2>Choose where to start.</h2>' +
       '<p class="small" style="margin-top:.6rem">Three routes through this question. Take them in order, or jump to the one you came for — nothing is hidden behind a choice.</p></div>';
     var routes = el('div', 'routes');
-    path.routes.forEach(function (r) {
+    path.routes.forEach(function (r, ri) {
       var a = el('a', 'route-card');
       a.href = '#' + r.id;
-      a.innerHTML = '<span class="tag">' + esc(r.tag) + '</span><h4>' + esc(r.name) + '</h4><p>' + r.blurb + '</p>' +
+      a.dataset.slot = path.id + '.js › routes[' + ri + '] › name · blurb · figKind';
+      a.innerHTML = '<span class="tag">' + esc(r.tag) + '</span><h3>' + esc(r.name) + '</h3><p>' + r.blurb + '</p>' +
         '<span class="fig-kind">' + esc(r.figKind) + '</span>';
       routes.appendChild(a);
     });
     cross.appendChild(routes);
     mount.appendChild(cross);
 
-    path.routes.forEach(function (r) { mount.appendChild(renderRoute(r, path.id)); });
+    path.routes.forEach(function (r, ri) { mount.appendChild(renderRoute(r, path.id, ri)); });
     flush();
     mounted();
 
@@ -395,6 +422,7 @@ window.SITE = window.SITE || {};
     var next = el('section', 'nextup wrap');
     next.id = 'nextup';
     var M = SITE.manifest;
+    next.dataset.slot = path.id + '.js › closing · next';
     next.innerHTML = '<div class="col-wide"><p class="kicker"><span class="dot"></span>Where next</p><h2>' + esc(path.closing.title) + '</h2>' +
       '<p class="dek" style="margin-top:1rem">' + path.closing.text + '</p></div>';
     var ng = el('div', 'next-grid');
@@ -403,13 +431,13 @@ window.SITE = window.SITE || {};
       var a = el('a', 'route-card');
       a.href = 'path.html?rq=' + n.rq;
       a.style.setProperty('--door-accent', 'var(--series-' + m.accent + ')');
-      a.innerHTML = '<span class="tag" style="color:var(--series-' + m.accent + ')">Path ' + m.n + '</span>' +
-        '<h4>' + esc(m.name) + '</h4><p>' + n.why + '</p><span class="fig-kind">' + esc(m.rqId) + '</span>';
+      a.innerHTML = '<span class="tag tag-accent">Path ' + m.n + '</span>' +
+        '<h3>' + esc(m.name) + '</h3><p>' + n.why + '</p><span class="fig-kind">' + esc(m.rqId) + '</span>';
       ng.appendChild(a);
     });
     var tour = el('a', 'route-card');
     tour.href = 'tour.html';
-    tour.innerHTML = '<span class="tag">The short way</span><h4>The guided tour</h4>' +
+    tour.innerHTML = '<span class="tag">The short way</span><h3>The guided tour</h3>' +
       '<p>One headline result from each of the seven paths, in about eight minutes.</p><span class="fig-kind">Default path</span>';
     ng.appendChild(tour);
     next.appendChild(ng);
@@ -444,23 +472,21 @@ window.SITE = window.SITE || {};
         opening: b.opening,
         stat: null,
         figure: b.figure,
-        steps: b.steps
+        // the door into the full path is the walk's last card, not a block after it
+        steps: b.steps.concat([{
+          deeper: true, tag: 'Go deeper · Path ' + m.n, title: m.name,
+          html: '<p>' + b.deeper + '</p>', href: 'path.html?rq=' + b.rq, cta: 'Open the full path',
+          slot: 'tour.js › beats[' + i + '].deeper'
+        }]),
+        slot: 'tour.js › beats[' + i + ']',
+        titleFields: 'title · opening', figureField: 'figure', stepsField: 'steps'
       };
       var scene = buildScene(cfg);
       sec.appendChild(scene.el);
 
-      var tail = el('div', 'route-tail');
-      var door = el('div', 'wrap');
-      var a = el('a', 'route-card');
-      a.style.maxWidth = '34rem';
-      a.href = 'path.html?rq=' + b.rq;
-      a.style.setProperty('--door-accent', 'var(--series-' + m.accent + ')');
-      a.innerHTML = '<span class="tag">Go deeper · Path ' + m.n + '</span>' +
-        '<h4>' + esc(m.name) + '</h4><p>' + b.deeper + '</p>';
-      door.appendChild(a);
-      reveal(door);
-      tail.appendChild(door);
-      sec.appendChild(tail);
+      // No tail: the next beat's scene is butted straight onto this one
+      // (.route.no-tail in base.css), so there is no empty screen between them.
+      sec.classList.add('no-tail');
 
       mount.appendChild(sec);
       flush();
@@ -472,7 +498,7 @@ window.SITE = window.SITE || {};
       items: [{ id: 'tour-top', label: 'The guided tour', kind: 'title' }]
         .concat(tour.beats.map(function (b, i) {
           var m = SITE.manifest.paths.filter(function (p) { return p.n === b.rq; })[0];
-          return { id: 'beat-' + (i + 1), tag: m.rqId, label: b.title, steps: b.steps.length };
+          return { id: 'beat-' + (i + 1), tag: m.rqId, label: b.title, steps: b.steps.length + 1 };
         }))
     });
   };

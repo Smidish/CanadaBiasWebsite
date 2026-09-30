@@ -20,7 +20,9 @@ SITE.TOUR = (function () {
 
   return {
     beats: [
-      /* ---- 1 ---- */
+      /* ══ CONTENT · Tour beat 1 ═══════════════════════════════════════
+         Edit: title · opening · figure · steps[].title/html/state · deeper.
+         rq is wiring (which path the beat opens into). Snippets: template.html */
       {
         rq: 1, title: 'Attention is finite, and it narrows',
         opening: '<p>Forty-one days of the Quebec campaign, every actor’s share of the mentions stacked up the side. ' +
@@ -47,7 +49,9 @@ SITE.TOUR = (function () {
         deeper: 'Switch newsrooms and watch the same campaign change shape — then map which issues the sources disagreed about most.'
       },
 
-      /* ---- 2 ---- */
+      /* ══ CONTENT · Tour beat 2 ═══════════════════════════════════════
+         Edit: title · opening · figure · steps[].title/html/state · deeper.
+         rq is wiring (which path the beat opens into). Snippets: template.html */
       {
         rq: 2, title: 'One event. Seven ways to announce it.',
         opening: '<p>A 120-minute debate. Health care, immigration, taxes. No new policy announced. Here is how ' +
@@ -75,7 +79,9 @@ SITE.TOUR = (function () {
         deeper: 'Take the close reading apart span by span, then see the same signatures across 14,000 articles — and in the photographs.'
       },
 
-      /* ---- 3 ---- */
+      /* ══ CONTENT · Tour beat 3 ═══════════════════════════════════════
+         Edit: title · opening · figure · steps[].title/html/state · deeper.
+         rq is wiring (which path the beat opens into). Snippets: template.html */
       {
         rq: 3, title: 'The message that money could not buy',
         opening: '<p>Campaigns issue thousands of distinct claims. Only some are echoed in news coverage. ' +
@@ -109,7 +115,9 @@ SITE.TOUR = (function () {
         deeper: 'Follow every message through the funnel from campaign channel to advertisement to news page — and watch how the framing changes on the way.'
       },
 
-      /* ---- 4 ---- */
+      /* ══ CONTENT · Tour beat 4 ═══════════════════════════════════════
+         Edit: title · opening · figure · steps[].title/html/state · deeper.
+         rq is wiring (which path the beat opens into). Snippets: template.html */
       {
         rq: 4, title: 'Loaded posts travel further. A bit.',
         opening: '<p>Once a story leaves the newsroom it enters a second distribution system with no editors and a ' +
@@ -144,7 +152,9 @@ SITE.TOUR = (function () {
         deeper: 'See who the amplifiers actually are, how the clusters separate, and what the replies said back.'
       },
 
-      /* ---- 5 ---- */
+      /* ══ CONTENT · Tour beat 5 ═══════════════════════════════════════
+         Edit: title · opening · figure · steps[].title/html/state · deeper.
+         rq is wiring (which path the beat opens into). Snippets: template.html */
       {
         rq: 5, title: 'Coverage moved first — probably',
         opening: '<p>The most tempting chart in political journalism is two lines that move together. Here is the ' +
@@ -176,7 +186,9 @@ SITE.TOUR = (function () {
         deeper: 'Line the polling up against coverage volume day by day, then watch what prediction markets did around the four biggest shocks.'
       },
 
-      /* ---- 6 ---- */
+      /* ══ CONTENT · Tour beat 6 ═══════════════════════════════════════
+         Edit: title · opening · figure · steps[].title/html/state · deeper.
+         rq is wiring (which path the beat opens into). Snippets: template.html */
       {
         rq: 6, title: 'And what did the machines say?',
         opening: '<p>A growing share of “what is going on in this election” gets answered by a model. We asked five ' +
@@ -206,7 +218,9 @@ SITE.TOUR = (function () {
         deeper: 'Compare the answers in English and French, and see which outlets each assistant chose to cite.'
       },
 
-      /* ---- 7 ---- */
+      /* ══ CONTENT · Tour beat 7 ═══════════════════════════════════════
+         Edit: title · opening · figure · steps[].title/html/state · deeper.
+         rq is wiring (which path the beat opens into). Snippets: template.html */
       {
         rq: 7, title: 'And what holds across both?',
         opening: '<p>An election and a referendum, running in the same five weeks in two provinces. If a pattern ' +

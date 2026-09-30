@@ -20,10 +20,62 @@ python3 -m http.server 8777     # then open http://localhost:8777
 ```
 
 It also opens straight from the filesystem (`open index.html`): everything is classic
-`<script>` tags, so there is no ES-module CORS problem over `file://`. The only network
-request is the Google Fonts stylesheet, which degrades to system serif/sans stacks offline.
+`<script>` tags, so there is no ES-module CORS problem over `file://`. Fonts are self-hosted
+(`fonts/`), so a local copy makes no network requests at all.
 
-## Deploying to GitHub Pages
+## Three copies, one codebase
+
+`js/env.js` (the first script on every page) works out from the hostname where it is running:
+
+| | Where | Indexed | Analytics | `?slots` overlay | Badge |
+|---|---|---|---|---|---|
+| **local** | `localhost`, `file://`, LAN | no | no | yes | "Local" |
+| **staging** | `smidish.github.io/CanadaBiasWebsite/` (and any unknown host) | no | no | yes | "Staging" |
+| **production** | `canada.media-bias-research.org` on all-inkl | yes | after consent | no | — |
+
+The consent banner shows everywhere so it can be tested. Locally, accepting just logs what
+would have loaded. The domain and the GA measurement ID live in `SITE.config` at the top of
+`js/env.js`.
+
+## Editing content
+
+- **Find a slot:** add `?slots` to any local or staging URL (`path.html?rq=1&slots`). Every
+  editable block is outlined and labelled with its file and field, e.g.
+  `rq1.js › routes[0] (Route 1A) › scrolly.steps[2]`.
+- **Copy a snippet:** `template.html` holds every building block: a complete route, step boxes,
+  headline numbers, takeaways, explorer controls, tour beats, and all 16 figure types, each live
+  next to the exact code that draws it, with its data written inline. A **Copy** button, the step
+  states each figure understands, and a field reference come with every figure.
+- **Try it:** paste into `js/content/sandbox.js` and open `sandbox.html`. It scrolls exactly like
+  a real path.
+- **Move it into place:** every route in `js/content/rqN.js` and every beat in `tour.js` opens with
+  a `CONTENT` banner comment listing the fields that are copy. The static pages mark their text
+  with `<!-- ══ CONTENT … ══ -->` comments.
+
+`template.html`, `sandbox.html` and `dev-gallery.html` are development-only. The build leaves
+them out of the production upload.
+
+## Deploying to all-inkl (production)
+
+```bash
+python3 scripts/build.py      # assemble dist/ (stops while launch blockers remain)
+python3 scripts/deploy.py     # upload dist/ over FTPS — or drag dist/ into FileZilla
+```
+
+`build.py` copies only the public files, adds `?v=<hash>` to every CSS/JS reference so they can
+be cached for a year, and writes the CSP hash for `404.html` into `.htaccess`. It stops if
+`TODO(legal)` placeholders or the placeholder GA ID remain (`--allow-todo` overrides).
+
+`.htaccess` handles HTTPS, security headers (CSP, nosniff, frame and referrer policies),
+caching, compression, the 404 page, and blocks development files. The full checklist of what
+only you can do (legal texts, AVVs, KAS settings, GA settings, HSTS) is in
+[docs/LAUNCH.md](docs/LAUNCH.md). The internal Art. 30 record is
+[docs/verarbeitungsverzeichnis.md](docs/verarbeitungsverzeichnis.md).
+
+## Staging on GitHub Pages
+
+GitHub Pages serves the repository as-is (not `dist/`), including the development pages.
+That's fine for staging: `env.js` marks every page `noindex` there and analytics never runs.
 
 **The repository root must contain an empty `.nojekyll` file.** It is in this repo — do not
 delete it.
@@ -51,11 +103,24 @@ there is no CDN to block.
 | `tour.html` | The default path: seven beats, one headline result per research question |
 | `path.html?rq=1…7` | Any one path. A single template driven by content objects |
 | `methods.html` | Measure definitions, uncertainty, and what the study cannot tell you |
+| `impressum.html`, `datenschutz.html` | Legal pages — placeholders marked `TODO(legal)` |
+| `404.html` | Error page; works at any depth on all three copies |
+| `template.html` | Development only: the snippet library |
+| `sandbox.html` | Development only: renders `js/content/sandbox.js` as a path |
 | `dev-gallery.html` | Development only: every figure type on one screen, for visual QA |
 
 ## Layout
 
 ```
+js/env.js             which copy is this (local / staging / production) + SITE.config
+js/consent.js         Klaro consent config + GA4 with Consent Mode v2 (basic)
+js/lib/klaro.js       vendored consent manager (BSD-3)
+js/pages/*.js         the per-page boot scripts (no inline scripts, for the CSP)
+js/template/          the snippet library behind template.html
+css/fonts.css         self-hosted Fraunces + Inter (fonts/, SIL OFL)
+scripts/build.py      assemble dist/ for upload
+scripts/deploy.py     upload dist/ to all-inkl over FTPS
+docs/                 launch checklist, Art. 30 record (internal)
 css/base.css          tokens, typography, the stage model, contents rail, chrome
 css/viz.css           figure frames, legends, tooltips, table views, HTML figures
 js/lib/d3.v7.min.js   vendored
@@ -76,7 +141,9 @@ js/content/tour.js        the default path
 1. Replace the entity names in `js/content/_entities.js`. Everything downstream — labels,
    legends, tooltips, tables, the methods page — reads from there.
 2. Replace the generator functions in `js/content/_data.js`. Each one documents the exact
-   shape it must return in the comment above it; nothing else has to change.
+   shape it must return in the comment above it; nothing else has to change. *Or*, figure by
+   figure, replace a `figure:` / `spec:` with a snippet from `template.html` holding your real
+   numbers inline. The two approaches mix freely.
 3. Delete the simulated-data badge: it is emitted in `js/render.js` (`SIM`) and in the rail
    in `js/app.js`. **Leave it in place until step 2 is genuinely finished.**
 
@@ -89,8 +156,12 @@ A route is a **scene**, not a stretch of page. Its stage pins to the viewport an
 position drives three sequential fades, handled in `js/stage.js`:
 
 1. **Title card.** The route's name, opening and hero number fade in over a wash of the
-   route's accent colour, with an ambient canvas behind them previewing the *shape* of the
-   figure that is coming — ribbons for a stream, a lattice for a heatmap, a point cloud for
+   route's accent colour, almost as soon as the stage pins, and then **hold for most of a screen
+   of scrolling**. A proximity snap point sits in the hold, so a reader who comes to rest anywhere
+   near it settles on the card, while a fast flick still goes past. "Keep scrolling" is a button
+   that skips to step one, and links to a route (crossroads cards, contents rail, deep links)
+   land on the held card. The card is always gone before the first step box can reach it.
+   An ambient canvas behind the card previews the *shape* of the figure that is coming — ribbons for a stream, a lattice for a heatmap, a point cloud for
    a scatter, bars for a ranking (`PAINT` / `FOR_TYPE` in `stage.js`). None of the fades
    begins before the stage is pinned, so a title is never seen travelling up the screen —
    it appears where it will sit.
@@ -107,8 +178,32 @@ appears.
 Figures taller than the stage are scaled down to fit (`fit()` in `stage.js`) rather than
 clipped or given their own scrollbar — a pinned stage cannot scroll.
 
-Timings live in one place: `tIn` / `tOut` / `fIn` / `out` in `stage.js`'s `layout()`, and
-the `.phase-intro` / `.phase-outro` spacer heights in `css/base.css`.
+Timings live in one place: `tIn` / `tOut` / `fIn` / `out` in `stage.js`'s `layout()` (the
+handover is anchored to where the first step box enters), `HOLD_AT` for the snap point, and
+the `.phase-intro` / `.phase-outro` spacer heights in `css/base.css`. A taller `.phase-intro`
+means a longer hold.
+
+### Steps: scrolling or swiping
+
+The **← →** keys page through the steps of whichever scene fills the screen, everywhere.
+
+On wide screens the step boxes scroll beside the figure. When they would cover **more than
+30% of the figure** instead (measured per route, averaged over the stretch where each box is
+the active one — in practice phones, not tablets or laptops), the route switches to **deck
+mode**: the figure holds the top of the screen and the steps move into a dock below it, paged
+by swiping sideways, by the dock's ‹ › buttons, or by ← →. Phones on their side get the dock
+on the right. Vertical scrolling still moves through the steps too, so nobody gets stuck.
+Every control just scrolls to the step's position, so scroll position stays the single source
+of truth. The threshold is `DECK_OVERLAP` in `stage.js`.
+
+"Next" on a scene's last step jumps on to what follows: the route's explorer on a path, or the
+next beat's title card on the tour. The last step keeps full colour and working controls, because
+the exit fade is anchored to it. On the tour, each beat's "Go deeper" door is the last card of
+its walk, and consecutive beats are butted together (`.route.no-tail`), so no empty screen
+scrolls past between them.
+
+In deck mode a chart that would need shrinking below 68% (a text figure: below 80%) keeps
+its size and scrolls in place, with a fade at the foot as the hint.
 
 ## The contents rail
 
@@ -136,6 +231,8 @@ Enforced in `js/charts.js`, not left to taste:
 - Light and dark are separately chosen palettes, not an inversion. The theme follows the
   system setting and can be overridden in the rail.
 - `prefers-reduced-motion` disables step transitions; figures render in their final state.
+- Small UI text uses `--muted` at ≥ 4.5:1 on every surface. Every chart SVG has an accessible
+  name, and every figure a table view.
 
 ## Browser support
 

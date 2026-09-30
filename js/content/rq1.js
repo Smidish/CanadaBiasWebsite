@@ -38,6 +38,11 @@ SITE.CONTENT.rq1 = (function () {
   var young = gg.filter(function (d) { return d.id === 'young'; })[0];
   var youngRatio = (young.population / young.coverage).toFixed(1);
 
+  /* ══ CONTENT · Path header ══════════════════════════════════════════
+     Edit: name · standfirst · rqText. The hub’s door text for this path
+     lives in _manifest.js. id / n / accent / rqId are wiring — leave them.
+     Everything above this line is data plumbing (figure builders and the
+     headline numbers computed from _data.js), not copy. ══ */
   return {
     id: 'rq1', n: 1, accent: 1, rqId: 'RQ1',
     name: 'Who Gets the Mic',
@@ -46,7 +51,9 @@ SITE.CONTENT.rq1 = (function () {
     rqText: 'How does the visibility and polarisation of political actors, social groups, issues, and positions differ across sources throughout each campaign?',
 
     routes: [
-      /* ---------------------------------------------------------- 1A */
+      /* ══ CONTENT · Route 1A ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r1a', tag: 'Route 1A', name: 'The attention market',
         blurb: 'Watch the share of coverage move, day by day — then switch newsrooms and watch it move somewhere else.',
@@ -108,7 +115,9 @@ SITE.CONTENT.rq1 = (function () {
                   'structure, the reporter who happened to be free. Difference is measurable; intent is not.</p>'
       },
 
-      /* ---------------------------------------------------------- 1B */
+      /* ══ CONTENT · Route 1B ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r1b', tag: 'Route 1B', name: 'The polarisation map',
         blurb: 'Two things can be true of a topic: everyone talks about it, and nobody agrees how. Plot both at once.',
@@ -205,7 +214,9 @@ SITE.CONTENT.rq1 = (function () {
                   'this chart is also the part with the widest error bars.</p>'
       },
 
-      /* ---------------------------------------------------------- 1C */
+      /* ══ CONTENT · Route 1C ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r1c', tag: 'Route 1C', name: 'Who is missing',
         blurb: 'Coverage of a campaign is also coverage of a public. Compare who appeared with who lives there.',
@@ -298,6 +309,7 @@ SITE.CONTENT.rq1 = (function () {
       }
     ],
 
+    /* ══ CONTENT · Path ending ══ Edit: closing.title · closing.text · next[].why ══ */
     closing: {
       title: 'You now know who was in the room.',
       text: 'What you don’t know yet is how they were described once they got there. Two newsrooms can give a party ' +

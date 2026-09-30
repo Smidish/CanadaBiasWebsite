@@ -66,6 +66,11 @@ SITE.CONTENT.rq6 = (function () {
     return (Math.max.apply(null, s) - Math.min.apply(null, s)).toFixed(2);
   }());
 
+  /* ══ CONTENT · Path header ══════════════════════════════════════════
+     Edit: name · standfirst · rqText. The hub’s door text for this path
+     lives in _manifest.js. id / n / accent / rqId are wiring — leave them.
+     Everything above this line is data plumbing (figure builders and the
+     headline numbers computed from _data.js), not copy. ══ */
   return {
     id: 'rq6', n: 6, accent: 6, rqId: 'RQ6',
     name: 'Ask the Machine',
@@ -75,7 +80,9 @@ SITE.CONTENT.rq6 = (function () {
     rqText: 'How do AI assistants represent competing actors, issues, and positions in responses to campaign-related questions, and how do their framing, stance, and cited sources vary across models, languages, and time?',
 
     routes: [
-      /* ---------------------------------------------------------- 6A */
+      /* ══ CONTENT · Route 6A ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r6a', tag: 'Route 6A', name: 'Five models, one question',
         blurb: 'Read the answers side by side. The differences are not where you expect them.',
@@ -139,7 +146,9 @@ SITE.CONTENT.rq6 = (function () {
                   'which makes the comparison clean and makes it a comparison of <i>one</i> phrasing.</p>'
       },
 
-      /* ---------------------------------------------------------- 6B */
+      /* ══ CONTENT · Route 6B ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r6b', tag: 'Route 6B', name: 'Does the language change the answer?',
         blurb: 'Ask in English. Ask in French. Same model, same day, same question.',
@@ -190,7 +199,9 @@ SITE.CONTENT.rq6 = (function () {
                   'and some of the gap is that.</p>'
       },
 
-      /* ---------------------------------------------------------- 6C */
+      /* ══ CONTENT · Route 6C ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r6c', tag: 'Route 6C', name: 'Who do they cite?',
         blurb: 'An assistant’s citations are an editorial decision made at scale. Compare them with what was published.',
@@ -240,6 +251,7 @@ SITE.CONTENT.rq6 = (function () {
       }
     ],
 
+    /* ══ CONTENT · Path ending ══ Edit: closing.title · closing.text · next[].why ══ */
     closing: {
       title: 'Seven measurements, two campaigns.',
       text: 'You have now seen visibility, wording, images, message uptake, amplification, timing and machine answers. ' +

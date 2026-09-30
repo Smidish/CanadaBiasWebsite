@@ -13,7 +13,7 @@
   --surface-2:   #efece3;
   --ink:         #141310;
   --ink-2:       #4f4d47;
-  --muted:       #8a877f;
+  --muted:       #6c6962;  /* 4.6:1 on every light surface (was #8a877f, 3.2:1) */
   --rule:        #e2dfd5;
   --rule-strong: #cfcbbe;
   --shadow:      0 1px 2px rgba(20,19,16,.05), 0 12px 32px -18px rgba(20,19,16,.35);
@@ -154,7 +154,7 @@ p:last-child { margin-bottom: 0; }
   letter-spacing: .14em; text-transform: uppercase;
   color: var(--muted);
   margin: 0 0 1rem;
-  display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+  display: flex; align-items: center; gap: .6rem;   /* no wrap: a long kicker wraps its text, the dot stays beside it */
 }
 .kicker .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
 
@@ -210,6 +210,20 @@ section { position: relative; }
 .pip[data-seen="1"] { background: var(--muted); }
 .pip[aria-current="page"] { background: var(--accent); }
 @media (max-width: 720px) { .pips { display: none; } }
+/* Narrow phones: the logo takes two lines so the rail fits the screen
+   (it used to push the page ~130px wider than a 390px phone). */
+@media (max-width: 560px) {
+  .rail-inner { gap: .65rem; }
+  .rail-logo { white-space: normal; line-height: 1.12; font-size: .92rem; min-width: 0; }
+  .rail-logo span { display: block; }
+}
+@media (max-width: 400px) {
+  .rail-inner { gap: .5rem; }
+  .rail-logo { font-size: .8rem; }
+  .rail-link { font-size: .74rem; }
+  .rail .sim-badge { padding-inline: .4rem; letter-spacing: .06em; }
+}
+@media (max-width: 340px) { .rail-link { display: none; } }
 
 .rail-link {
   font-size: .8rem; font-weight: 550; text-decoration: none; color: var(--ink-2);
@@ -321,6 +335,7 @@ section { position: relative; }
 
 /* ---- crossroads -------------------------------------------------- */
 .crossroads { padding-block: 2rem 1rem; }
+.crossroads h2 { font-size: clamp(1.35rem, 2.4vw, 1.9rem); line-height: 1.16; }
 .routes { display: grid; gap: 1rem; margin-top: 1.5rem; }
 @media (min-width: 760px) { .routes { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); } }
 .route-card {
@@ -333,7 +348,9 @@ section { position: relative; }
 .route-card .tag {
   font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink);
 }
-.route-card h4 { font-family: var(--display); font-size: 1.22rem; }
+.route-card h3, .route-card h4 { font-family: var(--display); font-size: 1.22rem; line-height: 1.3; }
+/* a card's tag in its own accent, pulled towards the ink so it clears 4.5:1 in both themes */
+.route-card .tag-accent { color: color-mix(in srgb, var(--door-accent) 62%, var(--ink)); }
 .route-card p { font-size: .88rem; color: var(--ink-2); margin: 0; }
 .route-card .fig-kind { margin-top: auto; padding-top: .8rem; font-size: .74rem; color: var(--muted); }
 
@@ -399,14 +416,22 @@ section { position: relative; }
 .stage-title .statline { margin-top: 1.8rem; }
 .stage-hint {
   display: inline-flex; flex-direction: column; align-items: flex-start; gap: .7rem; margin-top: 2.2rem;
-  font-size: .72rem; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  font: inherit; font-size: .72rem; font-weight: 650; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  background: none; border: 0; padding: .4rem .6rem .5rem; margin-left: -.6rem; border-radius: 10px; cursor: pointer;
+  transition: color .2s ease, background-color .2s ease;
 }
-.stage-hint i {
-  width: 1px; height: 30px; background: currentColor; display: block; margin-left: 1px;
-  animation: hintDrop 1.9s ease-in-out infinite; transform-origin: top;
+.stage-hint:hover { color: var(--accent-ink); background: color-mix(in srgb, var(--accent) 9%, transparent); }
+.stage-hint { flex-direction: row; align-items: center; gap: .75rem; }
+.stage-hint-arrow {
+  width: 42px; height: 42px; border-radius: 50%; flex: none;
+  display: grid; place-items: center;
+  border: 1.5px solid currentColor; color: var(--accent-ink);
+  animation: hintBob 1.9s ease-in-out infinite;
 }
-@keyframes hintDrop { 0%,100% { transform: scaleY(.35); opacity: .35; } 50% { transform: scaleY(1); opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .stage-hint i { animation: none; } }
+.stage-hint-arrow svg { width: 18px; height: 18px; }
+.stage-hint:hover .stage-hint-arrow { background: var(--accent); border-color: var(--accent); color: #fff; animation-play-state: paused; }
+@keyframes hintBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(5px); } }
+@media (prefers-reduced-motion: reduce) { .stage-hint-arrow { animation: none; } }
 
 .stage-figure {
   position: absolute; inset: 0;
@@ -431,8 +456,10 @@ section { position: relative; }
   pointer-events: none;
 }
 .phase { pointer-events: none; }
-.phase-intro { height: 92vh; height: 92svh; }
-.phase-outro { height: 70vh; height: 70svh; }
+/* The intro phase is the title card's hold: stage.js anchors the handover
+   to the first step box, so a taller intro means a longer hold. */
+.phase-intro { position: relative; height: 200vh; height: 200svh; }
+.phase-outro { height: 80vh; height: 80svh; }   /* room for the exit fade after the last step */
 
 .step { min-height: 64vh; display: flex; align-items: center; }
 .step-box {
@@ -459,7 +486,7 @@ section { position: relative; }
 @media (prefers-reduced-motion: reduce) {
   .step-box { opacity: 1; transform: none; transition: none; }
 }
-.step-box h4 { font-family: var(--display); font-size: 1.15rem; margin-bottom: .45rem; }
+.step-box h3 { font-family: var(--display); font-size: 1.15rem; line-height: 1.3; margin: 0 0 .45rem; }
 .step-box p { font-size: .95rem; color: var(--ink-2); margin: 0; }
 .step-box p + p { margin-top: .6rem; }
 .step-n {
@@ -469,6 +496,23 @@ section { position: relative; }
 
 /* the tail: explorer and takeaway, on a cleared page */
 .route-tail { padding-block: clamp(3rem, 12vh, 8rem); }
+
+/* Scenes with nothing between them (the tour): the next scene starts one
+   stage-height early, so its stage pins at the very moment the previous one
+   lets go — the old stage has already faded to nothing, so no blank screen
+   scrolls past in between. */
+.route.no-tail + .route.no-tail {
+  padding-top: 0;
+  margin-top: calc(var(--rail-h) - 100vh);
+  margin-top: calc(var(--rail-h) - 100svh);
+}
+.route.no-tail + .route.no-tail .route-stage { z-index: 2; }
+
+/* the tour's last card: the door into the full path */
+.step-box--deeper { border-left-color: var(--accent); }
+.step-box--deeper .step-n { color: var(--accent-ink); }
+.step-cta { margin-top: 1rem; }
+.dock-body .step-cta { margin-top: .8rem; }
 .reveal { opacity: 0; transition: opacity .55s ease; }
 .reveal.is-in { opacity: 1; }
 .reveal.is-out { opacity: 0; }
@@ -483,8 +527,8 @@ section { position: relative; }
   .stage-figure > .figure { width: 100%; margin: 0; }
   .stage-title-inner { max-width: 100%; }
   .stage-title .route-opening { font-size: 1rem; }
-  .phase-intro { height: 86svh; }
-  .phase-outro { height: 60svh; }
+  .phase-intro { height: 180svh; }
+  .phase-outro { height: 85svh; }
   .step { min-height: 62svh; align-items: flex-end; padding-bottom: 3vh; }
   .route[data-side="left"] .step { justify-content: flex-start; }
   .route[data-side="left"] .step-box {
@@ -498,6 +542,105 @@ section { position: relative; }
     -webkit-backdrop-filter: blur(10px) saturate(1.3);
   }
 }
+
+/* ---- title-card snap ---------------------------------------------
+   Proximity, not mandatory: a reader who comes to rest near a held title
+   card settles on it, a fast flick still goes straight past. */
+html.has-stage { scroll-snap-type: y proximity; }
+.snap-hold { position: absolute; left: 0; width: 1px; height: 1px; scroll-snap-align: start; }
+
+/* ---- deck mode: figure on top, steps in a dock below ----------------
+   Switched per route by stage.js when the step boxes would cover more
+   than 30% of the figure. The boxes stay in the flow as invisible scroll
+   spacers; the dock shows the active one. */
+.stage-dock { display: none; }
+.route.is-deck .route-stage { --dock-h: clamp(170px, 36%, 340px); touch-action: pan-y; }
+/* touch-action does not reach into scroll containers, so they get their own */
+.route.is-deck .dock-body, .route.is-deck .stage-figure.fig-scroll { touch-action: pan-y; }
+.route.is-deck .stage-figure { bottom: var(--dock-h); padding-top: .3rem; }
+/* A figure too tall to shrink legibly keeps its size and scrolls in place
+   (stage.js fit); the fade at the foot says there is more. At either end
+   the gesture carries on into the page. */
+.stage-figure.fig-scroll {
+  overflow-y: auto; align-items: flex-start; padding-block: .4rem 1.4rem;
+  -webkit-mask-image: linear-gradient(#000 calc(100% - 28px), transparent);
+          mask-image: linear-gradient(#000 calc(100% - 28px), transparent);
+}
+.route.is-deck .step-box { visibility: hidden; }
+.route.is-deck .stage-dock {
+  display: flex; flex-direction: column;
+  position: absolute; left: 0; right: 0; bottom: 0; height: var(--dock-h);
+  padding: .55rem var(--gutter) max(.7rem, env(safe-area-inset-bottom));
+  background: var(--surface);
+  border-top: 1px solid var(--rule);
+  box-shadow: 0 -14px 28px -22px rgba(20,19,16,.45);
+  z-index: 3;
+}
+.dock-bar { display: flex; align-items: center; gap: .6rem; flex: none; }
+.dock-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: .3rem; }
+.dock-n {
+  font-size: .66rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+}
+.dock-dots { display: flex; gap: 5px; }
+.dock-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--rule-strong); display: block; transition: background-color .25s ease, transform .25s ease; }
+.dock-dots i[data-on="done"] { background: color-mix(in srgb, var(--accent) 45%, var(--rule-strong)); }
+.dock-dots i[data-on="1"] { background: var(--accent); transform: scale(1.35); }
+.dock-btn {
+  flex: none; width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center;
+  border: 1px solid var(--rule-strong); background: var(--page); color: var(--ink); cursor: pointer;
+}
+.dock-btn svg { width: 18px; height: 18px; }
+.dock-btn:active { background: var(--surface-2); }
+.dock-body {
+  flex: 1; min-height: 0; overflow-y: auto;
+  margin-top: .45rem; padding: .1rem .1rem .2rem;
+  border-left: 3px solid var(--accent); padding-left: .8rem;
+}
+.dock-body h3 { font-family: var(--display); font-size: 1.08rem; line-height: 1.3; margin: 0 0 .35rem; }
+.dock-body p { font-size: .93rem; color: var(--ink-2); margin: 0; }
+.dock-body p + p { margin-top: .5rem; }
+.dock-body.from-right { animation: dockInR .32s ease both; }
+.dock-body.from-left { animation: dockInL .32s ease both; }
+@keyframes dockInR { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+@keyframes dockInL { from { opacity: 0; transform: translateX(-28px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .dock-body.from-right, .dock-body.from-left { animation: none; } }
+
+/* phones on their side: the dock moves to the right of the figure */
+@media (orientation: landscape) and (max-height: 520px) {
+  .route.is-deck .route-stage { --dock-w: min(42%, 380px); }
+  .route.is-deck .stage-figure { bottom: 0; right: var(--dock-w); }
+  .route.is-deck .stage-dock {
+    top: 0; left: auto; width: var(--dock-w); height: auto;
+    border-top: 0; border-left: 1px solid var(--rule);
+    box-shadow: -14px 0 28px -22px rgba(20,19,16,.45);
+    padding: .5rem max(.9rem, env(safe-area-inset-right)) .6rem .9rem;
+  }
+}
+
+/* ---- content-slot overlay (?slots, local and staging only) ---------- */
+html.show-slots [data-slot] { outline: 2px dashed #d4379b; outline-offset: 3px; }
+html.show-slots [data-slot]:not(.stage-figure) { position: relative; }
+html.show-slots [data-slot]::before {
+  content: attr(data-slot);
+  position: absolute; z-index: 60; top: -3px; left: -3px; transform: translateY(-100%);
+  max-width: 34rem; padding: .15rem .45rem; border-radius: 5px 5px 5px 0;
+  background: #d4379b; color: #fff;
+  font: 600 11px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 0; text-transform: none;
+  white-space: normal; pointer-events: none;
+}
+html.show-slots .stage-figure[data-slot]::before { top: .4rem; left: var(--gutter); transform: none; }
+html.show-slots .route.is-deck .step-box[data-slot] { visibility: visible; opacity: .35; }
+
+/* ---- which copy of the site is this (local / staging only) ---------- */
+.env-badge {
+  position: fixed; z-index: 90; left: 50%; top: calc(var(--rail-h) - 8px); transform: translateX(-50%);
+  padding: .05rem .5rem; border-radius: 999px;
+  background: #d4379b; color: #fff; font: 700 9.5px/1.4 var(--sans); letter-spacing: .1em; text-transform: uppercase;
+  opacity: .85; pointer-events: auto; cursor: help;
+}
+html[data-env="staging"] .env-badge { background: #6b4fd8; }
 
 /* ---- the left-hand contents rail --------------------------------- */
 .toc {
@@ -539,7 +682,7 @@ body.has-toc .toc { display: block; }
 }
 .explorer-head { padding: 1.2rem 1.3rem .2rem; }
 .explorer-head .tag { font-size: .68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--accent-ink); }
-.explorer-head h4 { font-family: var(--display); font-size: 1.3rem; margin: .3rem 0 .4rem; }
+.explorer-head h3 { font-family: var(--display); font-size: 1.3rem; line-height: 1.3; margin: .3rem 0 .4rem; }
 .explorer-head p { font-size: .9rem; color: var(--ink-2); max-width: 46rem; margin: 0; }
 .explorer-body { padding: 0 1.3rem 1.3rem; }
 
@@ -602,6 +745,9 @@ body.has-toc .toc { display: block; }
 .handoff { background: var(--ink); color: var(--page); border-radius: 18px; padding: clamp(1.8rem, 5vw, 3rem); }
 .handoff h3 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); max-width: 22ch; }
 .handoff p { color: color-mix(in srgb, var(--page) 76%, transparent); max-width: 44rem; margin-top: 1rem; }
+/* the box inverts with the theme, so its kicker follows --page rather than a fixed white */
+.handoff .kicker { color: color-mix(in srgb, var(--page) 70%, transparent); }
+.handoff .kicker .dot { background: currentColor; }
 .handoff .btn { background: var(--page); color: var(--ink); border-color: var(--page); }
 .handoff .btn-ghost { background: transparent; color: var(--page); border-color: color-mix(in srgb, var(--page) 40%, transparent); }
 
@@ -609,10 +755,58 @@ body.has-toc .toc { display: block; }
 .foot { border-top: 1px solid var(--rule); padding-block: 2.5rem calc(3.5rem + env(safe-area-inset-bottom, 0px)); }
 .foot-grid { display: grid; gap: 1.5rem; }
 @media (min-width: 760px) { .foot-grid { grid-template-columns: 1.4fr 1fr 1fr; } }
-.foot h5 { font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 .7rem; }
+.foot h2, .foot h5 { font-family: var(--sans); line-height: 1.4;  font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0 0 .7rem; }
 .foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; }
 .foot a { font-size: .88rem; color: var(--ink-2); text-decoration: none; }
 .foot a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.foot-legal {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.3rem;
+  margin-top: 2rem; padding-top: 1.2rem; border-top: 1px solid var(--rule);
+  font-size: .82rem; color: var(--muted);
+}
+.foot-legal a, .foot-legal .linkish { font-size: .82rem; }
+.linkish {
+  font: inherit; color: var(--ink-2); background: none; border: 0; padding: 0; cursor: pointer;
+}
+.linkish:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+
+/* A placeholder that must be replaced before launch: grep for TODO. */
+.todo { background: #fff1b8; color: #5c3d00; border-radius: 3px; padding: 0 .25em; }
+
+/* ---- accessibility helpers ---------------------------------------- */
+.skip-link {
+  position: fixed; z-index: 100; left: 12px; top: -60px;
+  padding: .55rem .9rem; border-radius: 10px;
+  background: var(--ink); color: var(--page); font-weight: 600; text-decoration: none;
+  transition: top .15s ease;
+}
+.skip-link:focus { top: 10px; }
+.noscript {
+  position: relative; z-index: 99; padding: .9rem 1.2rem;
+  background: #fdf1d4; color: #5c3d00; border-bottom: 1px solid #f0d79a; font-size: .92rem;
+}
+
+/* ---- consent banner (Klaro) in the site's own type and colours ----- */
+/* Klaro's names are inverted in its light theme: --dark* are the
+   surfaces, --light* the text. Mapped onto the site tokens so the banner
+   follows the light/dark theme too. */
+.klaro {
+  --font-family: var(--sans);
+  --title-font-family: var(--display);
+  --border-radius: 10px;
+  --dark1: var(--surface); --dark2: var(--muted); --dark3: var(--surface-2);
+  --light1: var(--ink); --light2: var(--ink-2); --light3: var(--ink);
+  --white1: var(--surface); --white2: var(--surface-2); --white3: var(--surface);
+  --green1: var(--ink); --green2: var(--ink-2); --green3: var(--ink);
+  --blue1: var(--ink-2); --blue2: var(--ink);
+  --button-text-color: var(--page);
+  --notice-max-width: min(40rem, calc(100vw - 32px));
+}
+.klaro .cookie-notice:not(.cookie-modal-notice) { left: 16px !important; right: 16px !important; bottom: 16px !important; width: auto !important; max-width: min(40rem, calc(100vw - 32px)) !important; }
+.klaro .cookie-notice:not(.cookie-modal-notice) { border: 1px solid var(--rule); box-shadow: var(--shadow-lift); }
+.klaro .cookie-notice .cn-body p, .klaro .cookie-modal p { color: var(--ink-2); }
+.klaro .cm-btn { font-weight: 600; }
+.klaro .cookie-notice a, .klaro .cookie-modal a { text-decoration: underline !important; text-underline-offset: 2px; }
 
 /* ---- reading progress ------------------------------------------- */
 .progress { position: fixed; top: 0; left: 0; height: 2px; background: var(--accent); z-index: 70; width: 0; transition: width .1s linear; }

@@ -58,6 +58,11 @@ SITE.CONTENT.rq7 = (function () {
   var lingCross = tr.cells.filter(function (c) { return c.row === 'ling' && c.col === 'qc2ab'; })[0].value;
   var uptkCross = tr.cells.filter(function (c) { return c.row === 'uptk' && c.col === 'qc2ab'; })[0].value;
 
+  /* ══ CONTENT · Path header ══════════════════════════════════════════
+     Edit: name · standfirst · rqText. The hub’s door text for this path
+     lives in _manifest.js. id / n / accent / rqId are wiring — leave them.
+     Everything above this line is data plumbing (figure builders and the
+     headline numbers computed from _data.js), not copy. ══ */
   return {
     id: 'rq7', n: 7, accent: 5, rqId: 'RQ7',
     name: 'Two Campaigns, One Pattern',
@@ -66,7 +71,9 @@ SITE.CONTENT.rq7 = (function () {
     rqText: 'Which patterns of topics, actor visibility, linguistic bias, and textual and visual framing are shared across the Quebec election and Alberta referendum, and which are specific to each event?',
 
     routes: [
-      /* ---------------------------------------------------------- 7A */
+      /* ══ CONTENT · Route 7A ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r7a', tag: 'Route 7A', name: 'The shared playbook',
         blurb: 'Ten patterns, measured the same way in both campaigns, sorted by how far apart they land.',
@@ -122,7 +129,9 @@ SITE.CONTENT.rq7 = (function () {
                   'similarly strong <i>relative to this study’s range</i>, not that the same number of articles was involved.</p>'
       },
 
-      /* ---------------------------------------------------------- 7B */
+      /* ══ CONTENT · Route 7B ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r7b', tag: 'Route 7B', name: 'Fingerprints',
         blurb: 'Fold the whole study into one shape per campaign and put them on top of each other.',
@@ -164,7 +173,9 @@ SITE.CONTENT.rq7 = (function () {
                   'together — so the enclosed area double-counts. That is why there is no total.</p>'
       },
 
-      /* ---------------------------------------------------------- 7C */
+      /* ══ CONTENT · Route 7C ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r7c', tag: 'Route 7C', name: 'What transfers',
         blurb: 'The strict test: fit a model on one campaign, score it on the other, and see what survives.',
@@ -216,6 +227,7 @@ SITE.CONTENT.rq7 = (function () {
       }
     ],
 
+    /* ══ CONTENT · Path ending ══ Edit: closing.title · closing.text · next[].why ══ */
     closing: {
       title: 'That is the whole study. What you make of it is the part we cannot do.',
       text: 'Nothing here tells you which newsroom to trust, which party was treated unfairly, or how to vote. ' +

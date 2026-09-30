@@ -57,6 +57,11 @@ SITE.CONTENT.rq2 = (function () {
   var lowAngleSignal = Math.round(imgs.filter(function (d) { return d.source === 'signal' && d.actor === 'yes' && d.angle === 'Low (looking up)'; }).length /
                        Math.max(1, imgs.filter(function (d) { return d.source === 'signal' && d.actor === 'yes'; }).length) * 100);
 
+  /* ══ CONTENT · Path header ══════════════════════════════════════════
+     Edit: name · standfirst · rqText. The hub’s door text for this path
+     lives in _manifest.js. id / n / accent / rqId are wiring — leave them.
+     Everything above this line is data plumbing (figure builders and the
+     headline numbers computed from _data.js), not copy. ══ */
   return {
     id: 'rq2', n: 2, accent: 2, rqId: 'RQ2',
     name: 'The Words We Choose',
@@ -65,7 +70,9 @@ SITE.CONTENT.rq2 = (function () {
     rqText: 'How do linguistic bias and textual and visual framing differ across sources covering the same actors or issues, including subtle patterns in mainstream print and online news? How do topic emphasis, wording, and portrayals across headlines, bodies, images, and captions contribute to these differences?',
 
     routes: [
-      /* ---------------------------------------------------------- 2A */
+      /* ══ CONTENT · Route 2A ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r2a', tag: 'Route 2A', name: 'Same event, seven headlines',
         blurb: 'Start where readers start. One event, stripped to its facts, and the seven headlines written about it.',
@@ -136,7 +143,9 @@ SITE.CONTENT.rq2 = (function () {
                   'structure talking, not necessarily its politics.</p>'
       },
 
-      /* ---------------------------------------------------------- 2B */
+      /* ══ CONTENT · Route 2B ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r2b', tag: 'Route 2B', name: 'The loaded-language meter',
         blurb: 'Zoom out from one event to 14,000 articles. Six dimensions of linguistic bias, eight sources, one grid.',
@@ -191,7 +200,9 @@ SITE.CONTENT.rq2 = (function () {
                   'not six separate findings.</p>'
       },
 
-      /* ---------------------------------------------------------- 2C */
+      /* ══ CONTENT · Route 2C ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r2c', tag: 'Route 2C', name: 'What the photographs say',
         blurb: 'A picture is a set of choices too: how high the camera sat, how close it got, which expression survived the edit.',
@@ -254,6 +265,7 @@ SITE.CONTENT.rq2 = (function () {
       }
     ],
 
+    /* ══ CONTENT · Path ending ══ Edit: closing.title · closing.text · next[].why ══ */
     closing: {
       title: 'Wording is downstream of something.',
       text: 'Newsrooms do not invent their material. Parties, candidates and advocacy organisations push messages at ' +

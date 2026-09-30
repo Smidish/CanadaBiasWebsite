@@ -5,16 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Methods &amp; limits · Same Campaign, Different Story</title>
 <meta name="description" content="How every measure on this site is defined, how uncertain it is, and what it cannot tell you.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="canonical" href="https://canada.media-bias-research.org/methods.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Same Campaign, Different Story">
+<meta property="og:title" content="Methods &amp; limits · Same Campaign, Different Story">
+<meta property="og:description" content="How every measure on this site is defined, how uncertain it is, and what it cannot tell you.">
+<meta property="og:url" content="https://canada.media-bias-research.org/methods.html">
+<meta property="og:image" content="https://canada.media-bias-research.org/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#f4f2ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)">
+<script src="js/env.js"></script>
+<link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/viz.css">
 <style>
   .prose h2 { padding-top: 1.4rem; border-top: 1px solid var(--rule); }
   .warn { border: 1px solid var(--rule); border-left: 3px solid #eda100; border-radius: 0 14px 14px 0;
           background: var(--surface); padding: 1.3rem 1.4rem; margin: 2rem 0; }
-  .warn h3 { margin-top: 0; font-size: 1.25rem; }
+  .warn h2 { margin-top: 0; padding-top: 0; border-top: 0; font-size: 1.25rem; }
   .cast { display: grid; gap: 1rem; margin: 1.5rem 0; }
   @media (min-width: 700px) { .cast { grid-template-columns: repeat(2, 1fr); } }
   .cast div { border: 1px solid var(--rule); border-radius: 12px; padding: .9rem 1rem; background: var(--surface); }
@@ -24,10 +39,12 @@
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<noscript><div class="noscript">The figures on this site are drawn with JavaScript. Please switch it on to see them.</div></noscript>
 
 <header class="rail"></header>
 
-<main>
+<main id="main">
   <header class="path-head wrap">
     <div class="col-wide">
       <p class="kicker"><span class="dot"></span>Methods</p>
@@ -38,10 +55,11 @@
   </header>
 
   <div class="wrap">
-  <article class="prose">
+  <!-- ══ CONTENT · Methods text: plain HTML, edit in place. The placeholder cast list (#cast) is drawn from js/content/_entities.js ══ -->
+  <article class="prose" data-slot="methods.html › article">
 
     <div class="warn">
-      <h3>First, the thing that matters most</h3>
+      <h2>First, the thing that matters most</h2>
       <p><b>This site is a prototype and every number on it is simulated.</b> The figures are populated by a seeded
         random generator so that the interface could be designed, built and tested before the analysis was finished.
         The outlet names, party names, leader names, account handles, headlines and AI answers are all invented.</p>
@@ -153,39 +171,37 @@
 
 <footer class="foot">
   <div class="wrap foot-grid">
-    <div>
-      <h5>About this site</h5>
+    <div data-slot="methods.html › footer · about">
+      <!-- ══ CONTENT · Footer "About this site" (one copy per page) ══ -->
+      <h2>About this site</h2>
       <p class="small">A prototype presentation of a media-bias study of the Quebec general election and the
         Alberta referendum. <b>All data shown is simulated placeholder data.</b></p>
     </div>
     <div>
-      <h5>The seven paths</h5>
+      <h2>The seven paths</h2>
       <ul id="footPaths"></ul>
     </div>
     <div>
-      <h5>Elsewhere</h5>
+      <h2>Elsewhere</h2>
       <ul>
         <li><a href="index.html">Start again</a></li>
         <li><a href="tour.html">The guided tour</a></li>
       </ul>
     </div>
   </div>
+  <div class="wrap foot-legal">
+    <span>© 2026 <span class="todo" title="TODO(legal)">[Operator name]</span></span>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz / Privacy</a>
+    <button type="button" class="linkish" data-consent-open>Cookie settings</button>
+  </div>
 </footer>
 
 <script src="js/content/_entities.js"></script>
 <script src="js/content/_manifest.js"></script>
 <script src="js/app.js"></script>
-<script>
-(function () {
-  if (!SITE.boot({})) return;
-  document.getElementById('cast').innerHTML = SITE.entities.sources.map(function (s) {
-    return '<div><b><i style="background:var(--series-' + s.slot + ')"></i>' + s.name + '</b>' +
-           '<span>' + s.kind + ' · ' + s.lang + ' · fictional placeholder</span></div>';
-  }).join('');
-  document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
-    return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
-  }).join('');
-}());
-</script>
+<script src="js/pages/methods.js"></script>
+<script src="js/consent.js"></script>
+<script src="js/lib/klaro.js"></script>
 </body>
 </html>

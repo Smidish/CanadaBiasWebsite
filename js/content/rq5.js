@@ -62,6 +62,11 @@ SITE.CONTENT.rq5 = (function () {
   var volPeak = Math.max.apply(null, polls.volume);
   var volMed = polls.volume.slice().sort(function (a, b) { return a - b; })[Math.floor(polls.volume.length / 2)];
 
+  /* ══ CONTENT · Path header ══════════════════════════════════════════
+     Edit: name · standfirst · rqText. The hub’s door text for this path
+     lives in _manifest.js. id / n / accent / rqId are wiring — leave them.
+     Everything above this line is data plumbing (figure builders and the
+     headline numbers computed from _data.js), not copy. ══ */
   return {
     id: 'rq5', n: 5, accent: 8, rqId: 'RQ5',
     name: 'Coverage and the Polls',
@@ -70,7 +75,9 @@ SITE.CONTENT.rq5 = (function () {
     rqText: 'How do changes in topics, actor visibility, linguistic bias, and framing relate over time to changes in polling estimates and prediction-market prices?',
 
     routes: [
-      /* ---------------------------------------------------------- 5A */
+      /* ══ CONTENT · Route 5A ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r5a', tag: 'Route 5A', name: 'The race and the coverage',
         blurb: 'Put the polling and the volume of coverage on the same timeline and mark what happened.',
@@ -128,7 +135,9 @@ SITE.CONTENT.rq5 = (function () {
                   '500 long investigations are the same height on this chart.</p>'
       },
 
-      /* ---------------------------------------------------------- 5B */
+      /* ══ CONTENT · Route 5B ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r5b', tag: 'Route 5B', name: 'Lead or lag?',
         blurb: 'If coverage and polling move together, one of them is usually first. Test every lag from −14 to +14 days.',
@@ -183,7 +192,9 @@ SITE.CONTENT.rq5 = (function () {
                   '<i>conservative</i> rather than generous.</p>'
       },
 
-      /* ---------------------------------------------------------- 5C */
+      /* ══ CONTENT · Route 5C ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r5c', tag: 'Route 5C', name: 'The market’s ear',
         blurb: 'Prediction markets update in seconds, not days. Watch what they did around the four biggest coverage shocks.',
@@ -237,6 +248,7 @@ SITE.CONTENT.rq5 = (function () {
       }
     ],
 
+    /* ══ CONTENT · Path ending ══ Edit: closing.title · closing.text · next[].why ══ */
     closing: {
       title: 'One more information source to check.',
       text: 'Everything so far has been humans publishing for humans. But a growing share of campaign questions now ' +

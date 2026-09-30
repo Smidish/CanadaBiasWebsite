@@ -62,6 +62,11 @@ SITE.CONTENT.rq4 = (function () {
   var oppLoaded = Math.round(rs.rows[3].values[0] * 100);
   var oppPlain = Math.round(rs.rows[0].values[0] * 100);
 
+  /* ══ CONTENT · Path header ══════════════════════════════════════════
+     Edit: name · standfirst · rqText. The hub’s door text for this path
+     lives in _manifest.js. id / n / accent / rqId are wiring — leave them.
+     Everything above this line is data plumbing (figure builders and the
+     headline numbers computed from _data.js), not copy. ══ */
   return {
     id: 'rq4', n: 4, accent: 7, rqId: 'RQ4',
     name: 'The Amplifiers',
@@ -70,7 +75,9 @@ SITE.CONTENT.rq4 = (function () {
     rqText: 'Which social media accounts amplify particular positions, and how do they share, comment on, or reframe news coverage? How are linguistic bias and framing associated with engagement and the stance and sentiment expressed in replies?',
 
     routes: [
-      /* ---------------------------------------------------------- 4A */
+      /* ══ CONTENT · Route 4A ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r4a', tag: 'Route 4A', name: 'The amplifier network',
         blurb: 'Two dozen accounts, eight outlets, and the sharing that connects them. Watch the clusters separate.',
@@ -121,7 +128,9 @@ SITE.CONTENT.rq4 = (function () {
                   'loud minority behaviour; most accounts that read campaign news never touched a share button.</p>'
       },
 
-      /* ---------------------------------------------------------- 4B */
+      /* ══ CONTENT · Route 4B ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r4b', tag: 'Route 4B', name: 'Does bias travel further?',
         blurb: 'The question everyone asks. The honest answer has a confidence interval attached.',
@@ -177,7 +186,9 @@ SITE.CONTENT.rq4 = (function () {
                   'by an account with a different history, gets a different number. We have no way to hold that constant.</p>'
       },
 
-      /* ---------------------------------------------------------- 4C */
+      /* ══ CONTENT · Route 4C ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r4c', tag: 'Route 4C', name: 'The reply room',
         blurb: 'Engagement is a number. Replies are sentences. They do not say the same thing.',
@@ -228,6 +239,7 @@ SITE.CONTENT.rq4 = (function () {
       }
     ],
 
+    /* ══ CONTENT · Path ending ══ Edit: closing.title · closing.text · next[].why ══ */
     closing: {
       title: 'None of this has touched the polls yet.',
       text: 'Coverage, framing, amplification — all of it measured, none of it connected to whether anybody moved. ' +

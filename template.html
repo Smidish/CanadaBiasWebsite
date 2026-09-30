@@ -1,0 +1,129 @@
+<!doctype html>
+<!-- Development only: the snippet library. Every figure type and text block,
+     live, with the code to paste. Not linked from the site and not deployed
+     (scripts/build.py leaves it out). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Snippet library · Same Campaign, Different Story</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script src="js/env.js"></script>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/viz.css">
+<style>
+  .tpl-head { padding-block: clamp(2.5rem, 7vh, 4rem) 1.5rem; }
+  .tpl-how { display: grid; gap: 1rem; margin-top: 1.6rem; counter-reset: how; }
+  @media (min-width: 820px) { .tpl-how { grid-template-columns: repeat(3, 1fr); } }
+  .tpl-how div { border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); padding: 1rem 1.1rem; }
+  .tpl-how b { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
+  .tpl-how p { font-size: .92rem; color: var(--ink-2); margin: 0; }
+  .tpl-nav { position: sticky; top: var(--rail-h); z-index: 40; background: color-mix(in srgb, var(--page) 92%, transparent);
+             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule); }
+  .tpl-nav .wrap { display: flex; gap: .3rem .9rem; flex-wrap: wrap; padding-block: .55rem; font-size: .8rem; }
+  .tpl-nav a { color: var(--ink-2); text-decoration: none; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .tpl-nav a:hover { color: var(--ink); text-decoration: underline; }
+  .tpl-nav .sep { color: var(--rule-strong); }
+  .tpl-section { padding-block: 2.2rem 1rem; }
+  .tpl-section > h2 { margin-bottom: .4rem; }
+  .tpl-item { border-top: 1px solid var(--rule); padding-block: 1.6rem; scroll-margin-top: calc(var(--rail-h) + 52px); }
+  .tpl-item-head h3 { font-size: 1.2rem; margin: 0 0 .25rem; }
+  .tpl-item-head code { font-size: .95em; color: var(--accent-ink); }
+  .tpl-item-body { display: grid; gap: 1.2rem; margin-top: 1rem; align-items: start; }
+  @media (min-width: 1000px) { .tpl-item-body { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .tpl-code-only { grid-template-columns: 1fr; } }
+  .tpl-preview .step-box.tpl-live { opacity: 1; transform: none; width: 100%; border-left-color: var(--accent); }
+  .tpl-preview .statline.tpl-live { margin: 0; }
+  .tpl-states { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin-top: .8rem; }
+  .tpl-state-shown { margin: .5rem 0 0; font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink-2); white-space: pre-wrap; }
+  .tpl-code { border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .tpl-code-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .4rem .5rem .4rem .9rem;
+                  border-bottom: 1px solid var(--rule); background: var(--surface-2); font-size: .74rem; color: var(--muted);
+                  font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+  .tpl-copy { font: 600 .75rem/1 var(--sans); padding: .45rem .8rem; border-radius: 8px; border: 1px solid var(--rule-strong);
+              background: var(--page); color: var(--ink); cursor: pointer; min-width: 5.5rem; }
+  .tpl-code pre { margin: 0; padding: .9rem 1rem; max-height: 30rem; overflow: auto;
+                  font: 12.5px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink); tab-size: 2; }
+  .tpl-notes { margin: .8rem 0 0; padding-left: 1.1rem; font-size: .88rem; color: var(--ink-2); }
+  .tpl-notes li + li { margin-top: .3rem; }
+  .tpl-fields { width: 100%; border-collapse: collapse; margin-top: .9rem; font-size: .84rem; }
+  .tpl-fields th { text-align: left; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: .3rem .5rem; border-bottom: 1px solid var(--rule); }
+  .tpl-fields td { padding: .4rem .5rem; border-bottom: 1px solid var(--rule); vertical-align: top; color: var(--ink-2); }
+  .tpl-fields td:first-child { white-space: nowrap; }
+  .tpl-fields code { font-size: .92em; color: var(--ink); }
+  .tpl-ref { display: grid; gap: 2rem; }
+  @media (min-width: 900px) { .tpl-ref { grid-template-columns: 1fr 1fr; } }
+  .tpl-slots { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: .8rem; }
+  .tpl-slots span { display: inline-flex; align-items: center; gap: .4rem; font-size: .85rem; }
+  .tpl-slots i { width: 22px; height: 22px; border-radius: 6px; display: block; }
+</style>
+</head>
+<body data-accent="1">
+
+<header class="rail"></header>
+
+<main id="main">
+  <header class="tpl-head wrap">
+    <p class="kicker"><span class="dot"></span>Development only · not published</p>
+    <h1>Snippet library</h1>
+    <p class="dek" style="margin-top:1rem;max-width:46rem">Every building block of a path, live, next to the exact code
+      that produces it. Copy a snippet, change the words and numbers, paste it into a content file.</p>
+    <div class="tpl-how">
+      <div><b>1 · Find the slot</b><p>Open any page with <code>?slots</code> in the URL (e.g.
+        <a href="path.html?rq=1&amp;slots">path.html?rq=1&amp;slots</a>). Every editable block is outlined and
+        labelled with the file and field it comes from.</p></div>
+      <div><b>2 · Try it in the sandbox</b><p>Paste into <code>js/content/sandbox.js</code> and open
+        <a href="sandbox.html">sandbox.html</a> to scroll through it exactly as it will appear.</p></div>
+      <div><b>3 · Move it into place</b><p>Paste into <code>js/content/rqN.js</code> (or <code>tour.js</code>).
+        Each route there starts with a <code>CONTENT</code> banner comment listing the fields you can edit.</p></div>
+    </div>
+  </header>
+
+  <nav class="tpl-nav" aria-label="On this page"><div class="wrap">
+    <a href="#route">route</a><a href="#blocks">text blocks</a><a href="#ref">formats &amp; colours</a><span class="sep">|</span>
+    <span id="tplNav" style="display:contents"></span>
+  </div></nav>
+
+  <section class="tpl-section wrap" id="route">
+    <h2>A whole route</h2>
+    <p class="small" style="max-width:46rem">A complete, working route: title card, figure, three steps, an explorer and
+      a takeaway. Paste it into a path’s <code>routes: [ … ]</code> array, then swap the figure for any of the ones below.
+      The <a href="sandbox.html">sandbox</a> is running this exact code.</p>
+    <div id="tplRoute" style="margin-top:1rem"></div>
+  </section>
+
+  <section class="tpl-section wrap" id="blocks">
+    <h2>Text blocks</h2>
+    <div id="tplBlocks"></div>
+  </section>
+
+  <section class="tpl-section wrap" id="figures">
+    <h2>Figures</h2>
+    <p class="small" style="max-width:46rem">Each one uses data written straight into the snippet — replace the numbers
+      with yours. Use a snippet as a route’s <code>scrolly.figure</code>, a tour beat’s <code>figure</code>, or an
+      explorer’s <code>figure</code>. The buttons show the step states each figure understands; put them in a step’s
+      <code>state: { … }</code>.</p>
+    <div id="tplFigures"></div>
+  </section>
+
+  <section class="tpl-section wrap" id="ref">
+    <h2>Formats and colours</h2>
+    <div id="tplRef" style="margin-top:1rem"></div>
+  </section>
+</main>
+
+<script src="js/lib/d3.v7.min.js"></script>
+<script src="js/content/_entities.js"></script>
+<script src="js/content/_data.js"></script>
+<script src="js/content/_manifest.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/render.js"></script>
+<script src="js/app.js"></script>
+<script src="js/template/samples.js"></script>
+<script src="js/template/template.js"></script>
+<script>
+  if (SITE.boot({})) SITE.renderTemplate();
+</script>
+</body>
+</html>

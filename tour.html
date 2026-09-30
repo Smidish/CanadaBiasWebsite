@@ -5,21 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>The guided tour · Same Campaign, Different Story</title>
 <meta name="description" content="Seven headline results from a media-bias study of the Quebec election and the Alberta referendum, in about eight minutes.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="canonical" href="https://canada.media-bias-research.org/tour.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Same Campaign, Different Story">
+<meta property="og:title" content="The guided tour · Same Campaign, Different Story">
+<meta property="og:description" content="Seven headline results from a media-bias study of the Quebec election and the Alberta referendum, in about eight minutes.">
+<meta property="og:url" content="https://canada.media-bias-research.org/tour.html">
+<meta property="og:image" content="https://canada.media-bias-research.org/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#f4f2ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)">
+<script src="js/env.js"></script>
+<link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/viz.css">
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<noscript><div class="noscript">The figures on this site are drawn with JavaScript. Please switch it on to see them.</div></noscript>
 
 <header class="rail"></header>
 
 <nav class="toc" aria-label="Contents of this page"></nav>
 
-<main>
+<main id="main">
+  <!-- ══ CONTENT · Tour intro (the beats themselves are in js/content/tour.js) ══ -->
   <header class="path-head wrap" id="tour-top">
-    <div class="col-wide">
+    <div class="col-wide" data-slot="tour.html › intro">
       <p class="kicker"><span class="dot"></span>The default path · about 8 minutes</p>
       <h1>The guided tour</h1>
       <p class="dek" style="margin-top:1.4rem">Seven beats, one headline result from each research question, in the
@@ -35,8 +53,9 @@
 
   <div id="tour"></div>
 
+  <!-- ══ CONTENT · Tour ending ══ -->
   <section class="nextup wrap" id="tour-end">
-    <div class="col-wide">
+    <div class="col-wide" data-slot="tour.html › ending">
       <p class="kicker"><span class="dot"></span>That’s the tour</p>
       <h2>Now the arguing is yours.</h2>
       <p class="dek" style="margin-top:1rem">You have seen one result from each question. Each of them has two more
@@ -48,22 +67,29 @@
 
 <footer class="foot">
   <div class="wrap foot-grid">
-    <div>
-      <h5>About this site</h5>
+    <div data-slot="tour.html › footer · about">
+      <!-- ══ CONTENT · Footer "About this site" (one copy per page) ══ -->
+      <h2>About this site</h2>
       <p class="small">A prototype presentation of a media-bias study of the Quebec general election and the
         Alberta referendum. <b>All data shown is simulated placeholder data.</b></p>
     </div>
     <div>
-      <h5>The seven paths</h5>
+      <h2>The seven paths</h2>
       <ul id="footPaths"></ul>
     </div>
     <div>
-      <h5>Elsewhere</h5>
+      <h2>Elsewhere</h2>
       <ul>
         <li><a href="index.html">Start again</a></li>
         <li><a href="methods.html">Methods &amp; limits</a></li>
       </ul>
     </div>
+  </div>
+  <div class="wrap foot-legal">
+    <span>© 2026 <span class="todo" title="TODO(legal)">[Operator name]</span></span>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz / Privacy</a>
+    <button type="button" class="linkish" data-consent-open>Cookie settings</button>
   </div>
 </footer>
 
@@ -77,15 +103,8 @@
 <script src="js/render.js"></script>
 <script src="js/app.js"></script>
 <script src="js/content/tour.js"></script>
-<script>
-(function () {
-  if (!SITE.boot({})) return;
-  SITE.renderTour(document.getElementById('tour'), SITE.TOUR);
-  SITE.buildDoors(document.getElementById('doors'));
-  document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
-    return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
-  }).join('');
-}());
-</script>
+<script src="js/pages/tour.js"></script>
+<script src="js/consent.js"></script>
+<script src="js/lib/klaro.js"></script>
 </body>
 </html>

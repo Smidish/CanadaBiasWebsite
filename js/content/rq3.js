@@ -63,6 +63,11 @@ SITE.CONTENT.rq3 = (function () {
   var f = D.messageFlow('qc');
   var reportedShare = Math.round(f.totals.reported / (f.totals.reported + f.totals.unreported) * 100);
 
+  /* ══ CONTENT · Path header ══════════════════════════════════════════
+     Edit: name · standfirst · rqText. The hub’s door text for this path
+     lives in _manifest.js. id / n / accent / rqId are wiring — leave them.
+     Everything above this line is data plumbing (figure builders and the
+     headline numbers computed from _data.js), not copy. ══ */
   return {
     id: 'rq3', n: 3, accent: 3, rqId: 'RQ3',
     name: 'From Press Release to Print',
@@ -71,7 +76,9 @@ SITE.CONTENT.rq3 = (function () {
     rqText: 'Which messages from parties, candidates, and advocacy organisations receive news coverage, and how does the representation of their messages differ between actors’ own communication, political advertisements, and news reporting?',
 
     routes: [
-      /* ---------------------------------------------------------- 3A */
+      /* ══ CONTENT · Route 3A ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r3a', tag: 'Route 3A', name: 'The message funnel',
         blurb: 'Three thousand messages go in. Follow the ribbons and see how many come out the other side.',
@@ -127,7 +134,9 @@ SITE.CONTENT.rq3 = (function () {
                   'constantly looks more prolific than it is.</p>'
       },
 
-      /* ---------------------------------------------------------- 3B */
+      /* ══ CONTENT · Route 3B ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r3b', tag: 'Route 3B', name: 'The uptake leaderboard',
         blurb: 'Which individual messages actually made it — and whether the money predicted it.',
@@ -178,7 +187,9 @@ SITE.CONTENT.rq3 = (function () {
                   'earned-media stunts cost money that never appears in an ad register.</p>'
       },
 
-      /* ---------------------------------------------------------- 3C */
+      /* ══ CONTENT · Route 3C ══════════════════════════════════════════
+         Edit: name · blurb · figKind · opening · stat · scrolly.figure · scrolly.steps[].title/html/state · explorer · takeaway.
+         Snippets for every field: template.html · try changes in sandbox.html */
       {
         id: 'r3c', tag: 'Route 3C', name: 'Lost in translation',
         blurb: 'The message that gets reported is rarely the message that was sent. Measure the distance.',
@@ -230,6 +241,7 @@ SITE.CONTENT.rq3 = (function () {
       }
     ],
 
+    /* ══ CONTENT · Path ending ══ Edit: closing.title · closing.text · next[].why ══ */
     closing: {
       title: 'The newsroom is no longer the last stop.',
       text: 'A story that makes it into print immediately enters a second distribution system, one with different ' +

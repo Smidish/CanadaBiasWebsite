@@ -5,9 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Same Campaign, Different Story</title>
 <meta name="description" content="An interactive tour of how Quebec's election and Alberta's referendum were covered — across newsrooms, feeds, advertising and AI assistants. Prototype running on simulated placeholder data.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="canonical" href="https://canada.media-bias-research.org/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Same Campaign, Different Story">
+<meta property="og:title" content="Same Campaign, Different Story">
+<meta property="og:description" content="An interactive tour of how Quebec's election and Alberta's referendum were covered — across newsrooms, feeds, advertising and AI assistants. Prototype running on simulated placeholder data.">
+<meta property="og:url" content="https://canada.media-bias-research.org/">
+<meta property="og:image" content="https://canada.media-bias-research.org/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#f4f2ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)">
+<script src="js/env.js"></script>
+<link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/viz.css">
 <style>
@@ -17,7 +32,7 @@
   .intro { padding-block: clamp(2rem, 6vh, 4rem); }
   .intro-grid { display: grid; gap: 1.6rem; margin-top: 2rem; }
   @media (min-width: 820px) { .intro-grid { grid-template-columns: repeat(3, 1fr); gap: 2.4rem; } }
-  .intro-grid h4 { font-family: var(--sans); font-size: .76rem; font-weight: 700; letter-spacing: .12em;
+  .intro-grid h3 { font-family: var(--sans); font-size: .76rem; font-weight: 700; letter-spacing: .12em;
                    text-transform: uppercase; color: var(--muted); margin-bottom: .5rem; }
   .intro-grid p { font-size: .94rem; color: var(--ink-2); }
   .doors-wrap { padding-block: clamp(2rem, 6vh, 3.5rem); }
@@ -32,14 +47,17 @@
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+<noscript><div class="noscript">The figures on this site are drawn with JavaScript. Please switch it on to see them.</div></noscript>
 
 <header class="rail"></header>
 
-<main>
+<main id="main">
 
+<!-- ══ CONTENT · Hero: kicker, title, dek, buttons ══ -->
 <section class="hero hero-wrap wrap">
   <canvas class="hero-canvas" aria-hidden="true"></canvas>
-  <div class="hero-inner">
+  <div class="hero-inner" data-slot="index.html › hero">
     <p class="kicker"><span class="dot"></span>Media bias research · Quebec &amp; Alberta, 2026</p>
     <h1 class="hero-title">Same campaign,<br><em>different story</em>.</h1>
     <p class="dek">Two provinces voted in the same five weeks. One chose a government, the other answered a question.
@@ -57,7 +75,8 @@
   </div>
 </section>
 
-<section class="intro wrap">
+<!-- ══ CONTENT · Intro: "You are the analyst" + three columns ══ -->
+<section class="intro wrap" data-slot="index.html › intro">
   <div class="col-wide">
     <h2>You are the analyst here.</h2>
     <p class="lede" style="margin-top:1.2rem;color:var(--ink-2)">This site does not tell you which newsroom to trust.
@@ -66,25 +85,26 @@
   </div>
   <div class="intro-grid col-wide">
     <div>
-      <h4>Scroll to be shown</h4>
+      <h3>Scroll to be shown</h3>
       <p>Every path is a guided walk: the figure moves as you scroll, one idea per step. Nothing is hidden behind
         a click.</p>
     </div>
     <div>
-      <h4>Stop to dig</h4>
+      <h3>Stop to dig</h3>
       <p>After each walk the same figure is handed over with its controls unlocked — switch newsrooms, switch
         campaigns, hover anything, or open the table view for the raw numbers.</p>
     </div>
     <div>
-      <h4>Argue with it</h4>
+      <h3>Argue with it</h3>
       <p>Every route ends with what the measurement cannot show. Those boxes are not disclaimers; they are the
         most important part of the page.</p>
     </div>
   </div>
 </section>
 
+<!-- ══ CONTENT · Doors heading (the door cards come from js/content/_manifest.js) ══ -->
 <section class="doors-wrap wrap" id="paths">
-  <div class="doors-head">
+  <div class="doors-head" data-slot="index.html › doors heading · cards: _manifest.js">
     <div class="col-wide">
       <p class="kicker"><span class="dot"></span>Seven ways in</p>
       <h2>Pick a question.</h2>
@@ -95,9 +115,10 @@
   <div class="doors" id="doors"></div>
 </section>
 
+<!-- ══ CONTENT · Guided-tour call to action ══ -->
 <section class="wrap tour-cta">
-  <div class="handoff">
-    <p class="kicker" style="color:rgba(255,255,255,.55)"><span class="dot" style="background:currentColor"></span>Short on time</p>
+  <div class="handoff" data-slot="index.html › tour call to action">
+    <p class="kicker"><span class="dot"></span>Short on time</p>
     <h3>The guided tour is the whole study in seven scrolls.</h3>
     <p>One headline result per research question, in the order that makes the best argument, with a door into the
       full path at every stop. About eight minutes.</p>
@@ -109,8 +130,9 @@
   </div>
 </section>
 
+<!-- ══ CONTENT · "About the numbers" disclosure — rewrite when real data lands ══ -->
 <section class="disclosure wrap">
-  <div class="disclosure-box col-wide">
+  <div class="disclosure-box col-wide" data-slot="index.html › disclosure">
     <h3>About the numbers on this site</h3>
     <p>This is a working prototype of the presentation, not a publication of results. <b>Every figure, quotation,
       outlet name, party name and account handle here is a placeholder</b>, generated by a seeded random process so
@@ -126,36 +148,36 @@
 
 <footer class="foot">
   <div class="wrap foot-grid">
-    <div>
-      <h5>About this site</h5>
+    <div data-slot="index.html › footer · about">
+      <!-- ══ CONTENT · Footer "About this site" (one copy per page) ══ -->
+      <h2>About this site</h2>
       <p class="small">A prototype presentation of a media-bias study of the Quebec general election and the
         Alberta referendum, covering news text, images, political advertising, social media and AI assistants.</p>
     </div>
     <div>
-      <h5>The seven paths</h5>
+      <h2>The seven paths</h2>
       <ul id="footPaths"></ul>
     </div>
     <div>
-      <h5>Elsewhere</h5>
+      <h2>Elsewhere</h2>
       <ul>
         <li><a href="tour.html">The guided tour</a></li>
         <li><a href="methods.html">Methods &amp; limits</a></li>
       </ul>
     </div>
   </div>
+  <div class="wrap foot-legal">
+    <span>© 2026 <span class="todo" title="TODO(legal)">[Operator name]</span></span>
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz / Privacy</a>
+    <button type="button" class="linkish" data-consent-open>Cookie settings</button>
+  </div>
 </footer>
 
 <script src="js/content/_manifest.js"></script>
 <script src="js/app.js"></script>
-<script>
-(function () {
-  if (!SITE.boot({})) return;
-  SITE.buildDoors(document.getElementById('doors'));
-  SITE.heroField(document.querySelector('.hero-canvas'));
-  document.getElementById('footPaths').innerHTML = SITE.manifest.paths.map(function (p) {
-    return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
-  }).join('');
-}());
-</script>
+<script src="js/pages/index.js"></script>
+<script src="js/consent.js"></script>
+<script src="js/lib/klaro.js"></script>
 </body>
 </html>

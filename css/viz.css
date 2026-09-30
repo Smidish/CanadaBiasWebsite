@@ -10,6 +10,7 @@
 }
 
 .figure {
+  margin: 0;              /* <figure> brings a 40px side margin by default */
   background: var(--surface);
   border: 1px solid var(--rule);
   border-radius: 14px;

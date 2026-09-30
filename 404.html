@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- This page is served at whatever URL was missing (/a/b/c), so relative
+     links need a base: the site root is "/" on the real domain and locally,
+     "/<repo>/" on GitHub Pages. Keep this script byte-for-byte as it is — its
+     hash is allowed in the Content-Security-Policy (scripts/build.py). -->
+<script>(function(){var h=location.hostname,p=location.pathname.split('/');document.write('<base href="'+(/\.github\.io$/.test(h)&&p[1]?'/'+p[1]+'/':'/')+'">');}());</script>
+<title>Page not found · Same Campaign, Different Story</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.ico" sizes="32x32">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<script src="js/env.js"></script>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/base.css">
+<style>
+  .nf { min-height: calc(100vh - var(--rail-h) - 12rem); display: flex; align-items: center; padding-block: 4rem; }
+  .nf .num { font-family: var(--display); font-size: clamp(5rem, 18vw, 10rem); line-height: .9; color: var(--accent-ink); }
+  .nf ul { list-style: none; padding: 0; margin: 2rem 0 0; display: flex; flex-wrap: wrap; gap: .7rem; }
+</style>
+</head>
+<body data-accent="1">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="rail"><div class="rail-inner">
+  <a class="rail-logo" href="index.html">Same Campaign, <span>Different Story</span></a>
+</div></header>
+
+<main id="main" class="nf wrap">
+  <div class="col-wide">
+    <p class="num" aria-hidden="true">404</p>
+    <h1>This page isn’t here.</h1>
+    <p class="dek" style="margin-top:1rem">The link may be old, or the address mistyped. Everything on the site is one of
+      these:</p>
+    <ul>
+      <li><a class="btn" href="index.html">The seven doors</a></li>
+      <li><a class="btn btn-ghost" href="tour.html">The guided tour</a></li>
+      <li><a class="btn btn-ghost" href="methods.html">Methods &amp; limits</a></li>
+    </ul>
+  </div>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-legal" style="margin-top:0">
+    <a href="impressum.html">Impressum</a>
+    <a href="datenschutz.html">Datenschutz / Privacy</a>
+  </div>
+</footer>
+</body>
+</html>

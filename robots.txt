@@ -1,0 +1,7 @@
+# Only the production copy is ever indexed: local and staging copies carry
+# a noindex tag (js/env.js), and GitHub Pages serves this file from a
+# subpath, where crawlers do not read it.
+User-agent: *
+Allow: /
+
+Sitemap: https://canada.media-bias-research.org/sitemap.xml

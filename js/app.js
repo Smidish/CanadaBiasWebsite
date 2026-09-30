@@ -314,6 +314,50 @@ window.SITE = window.SITE || {};
     if (!assertDeps()) return false;
     SITE.buildRail(opts.activeN);
     SITE.progressBar();
+    fillFootPaths();
     return true;
   };
+
+  /* Title, description, canonical and Open Graph for pages whose content
+     is only known at run time (path.html). The static pages carry theirs
+     in the HTML. Canonical URLs always point at the production domain. */
+  SITE.setPageMeta = function (m) {
+    function set(sel, attr, val) {
+      var n = document.head.querySelector(sel);
+      if (n) n.setAttribute(attr, val);
+    }
+    var url = SITE.config.productionOrigin + '/' + (m.path || '');
+    if (m.title) { document.title = m.title; set('meta[property="og:title"]', 'content', m.title); }
+    if (m.description) {
+      set('meta[name="description"]', 'content', m.description);
+      set('meta[property="og:description"]', 'content', m.description);
+    }
+    set('link[rel="canonical"]', 'href', url);
+    set('meta[property="og:url"]', 'content', url);
+  };
+
+  /* Deep links (path.html?rq=2#r2b) need a nudge once the page is built,
+     and should land instantly rather than smooth-scroll the whole page. A
+     route lands on its held title card. */
+  SITE.landOnHash = function () {
+    if (!location.hash) return;
+    var id;
+    try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { return; }
+    if (SITE.Stage && SITE.Stage.jump(id, true)) return;
+    var t = document.getElementById(id);
+    if (!t) return;
+    var prev = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, t.getBoundingClientRect().top + window.scrollY);
+    document.documentElement.style.scrollBehavior = prev;
+  };
+
+  // The "seven paths" list in every footer.
+  function fillFootPaths() {
+    var ul = document.getElementById('footPaths');
+    if (!ul) return;
+    ul.innerHTML = SITE.manifest.paths.map(function (p) {
+      return '<li><a href="path.html?rq=' + p.n + '">' + p.n + '. ' + p.name + '</a></li>';
+    }).join('');
+  }
 }());
